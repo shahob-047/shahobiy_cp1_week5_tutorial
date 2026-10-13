@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Full Reading Practice</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #f1f2ec;
+            --text: #1a1a1a;
+            --text-muted: #555;
+            --text-light: #888;
+            --border: #e0e0e0;
+            --border-medium: #ccc;
+            --header-bg: #ffffff;
+            --panel-bg: #ffffff;
+            --nav-bg: #ffffff;
+            --input-bg: #ffffff;
+            --example-bg: #f9f9f9;
+            --context-menu-bg: #ffffff;
+            --modal-bg: #ffffff;
+            --timer-color: #333;
+            --resizer-bg: #f0f0f0;
+            --active-blue: #4a90e2;
+            --correct-bg: #e9f7ef;
+            --incorrect-bg: #f8d7da;
+            --correct-border: #28a745;
+            --incorrect-border: #dc3545;
+            --highlight-color: #ffeb3b;
+            --subq-bg: #ffffff;
+            --subq-border: #ccc;
+            --subq-text: #333;
+            --footer-btn-bg: #f0f0f0;
+            --footer-btn-border: #ccc;
+            --passage-title: #2c3e50;
+            --toolbar-bg: #1a1a2e;
+            --toolbar-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        body.night-mode {
+            --bg: #121212;
+            --bg-secondary: #1e1e1e;
+            --bg-tertiary: #252525;
+            --text: #e0e0e0;
+            --text-muted: #aaa;
+            --text-light: #777;
+            --border: #333;
+            --border-medium: #444;
+            --header-bg: #1a1a1a;
+            --panel-bg: #1a1a1a;
+            --nav-bg: #1a1a1a;
+            --input-bg: #252525;
+            --example-bg: #252525;
+            --modal-bg: #1e1e1e;
+            --timer-color: #e0e0e0;
+            --resizer-bg: #2a2a2a;
+            --active-blue: #64b5f6;
+            --correct-bg: #1a3a2a;
+            --incorrect-bg: #3a1a1a;
+            --correct-border: #4caf50;
+            --incorrect-border: #f44336;
+            --subq-bg: #252525;
+            --subq-border: #444;
+            --subq-text: #ccc;
+            --footer-btn-bg: #2a2a2a;
+            --footer-btn-border: #444;
+            --passage-title: #90caf9;
+            --toolbar-bg: #0d0d1a;
+            --toolbar-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            background-color: var(--header-bg);
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            height: 60px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 12px; }
+
+        .timer-container {
+            display: flex;
+            position: relative;
+            cursor: default;
+            color: var(--timer-color);
+            font-size: 16px;
+            font-weight: 500;
+            align-items: center;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-controls { display: flex; align-items: center; gap: 6px; margin-left: 10px; }
+
+        .timer-controls button {
+            background: var(--footer-btn-bg);
+            border: 1px solid var(--border-medium);
+            border-radius: 50%;
+            padding: 0;
+            cursor: pointer;
+            width: 30px; height: 30px;
+            display: flex; align-items: center; justify-content: center;
+            transition: background-color 0.2s;
+        }
+        .timer-controls button:hover { background: var(--border); }
+        .timer-controls button svg { width: 18px; height: 18px; fill: var(--timer-color); }
+
+        #night-mode-btn {
+            background: var(--footer-btn-bg);
+            border: 1px solid var(--border-medium);
+            border-radius: 20px;
+            padding: 5px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex; align-items: center; gap: 6px;
+            transition: all 0.2s;
+            font-family: Arial, sans-serif;
+        }
+        #night-mode-btn:hover { background: var(--border); }
+
+        .telegram-link {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            font-family: Arial, sans-serif;
+        }
+        .telegram-link:hover { text-decoration: underline; }
+
+        .main-container {
+            margin-top: 60px;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg);
+            height: calc(100vh - 60px);
+        }
+
+        .panels-container { display: flex; flex: 1; overflow: hidden; }
+
+        .passage-panel {
+            flex: 1;
+            padding: 25px 25px 110px;
+            overflow-y: auto;
+            min-width: 200px;
+            background: var(--panel-bg);
+        }
+
+        .reading-passage h4 {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--passage-title);
+            margin-bottom: 6px;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .reading-passage .subtitle {
+            font-style: italic;
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        .reading-passage p {
+            margin-bottom: 1.1em;
+            color: var(--text);
+            text-align: justify;
+        }
+        .reading-passage .para-label {
+            font-weight: bold;
+            color: var(--passage-title);
+        }
+
+        .questions-panel {
+            flex: 1;
+            padding: 20px 20px 110px;
+            overflow-y: auto;
+            min-width: 200px;
+            border-left: 1px solid var(--border);
+            background: var(--panel-bg);
+        }
+
+        .resizer {
+            width: 10px;
+            cursor: col-resize;
+            background-color: var(--resizer-bg);
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="30" viewBox="0 0 10 30"><path d="M4 11h2v2H4zM4 15h2v2H4zM4 19h2v2H4z" fill="%23888"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .part-header {
+            background-color: var(--bg-tertiary);
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            margin: 8px 20px;
+            border-radius: 5px;
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
+        .part-header p { margin: 0; }
+        .part-header p:first-child { margin-bottom: 4px; font-weight: bold; }
+
+        .question { margin-bottom: 35px; color: var(--text); font-family: Arial, sans-serif; }
+        .question p { margin-bottom: 8px; color: var(--text); }
+        .question-prompt { margin-bottom: 18px; }
+        .question ul { list-style: none; padding-left: 0; }
+        .question ul li { margin-bottom: 4px; color: var(--text); }
+
+        .answer-input {
+            border: 1px solid var(--border-medium);
+            border-radius: 4px;
+            background-color: var(--input-bg);
+            color: var(--text);
+            padding: 2px 5px;
+            font-size: 15px;
+            text-align: center;
+            margin: 0 4px;
+            height: 28px;
+            width: 140px;
+            font-family: Arial, sans-serif;
+        }
+        .answer-input.wide { width: 180px; }
+        .answer-input.active-input { border-color: var(--active-blue); box-shadow: 0 0 3px 1px rgba(74,144,226,0.5); }
+        .answer-input::placeholder { color: #999; font-weight: bold; text-align: center; }
+        .answer-input.correct { border-color: var(--correct-border); background-color: var(--correct-bg); }
+        .answer-input.incorrect { border-color: var(--incorrect-border); background-color: var(--incorrect-bg); color: var(--incorrect-border); }
+        select.answer-input option { background: var(--input-bg); color: var(--text); }
+
+        .q-number { color: var(--text-light); font-size: 14px; font-weight: bold; }
+
+        /* TRUE/FALSE/NOT GIVEN */
+        .tf-question { margin-bottom: 22px; border-radius: 4px; color: var(--text); }
+        .tf-question-line {
+            display: flex; align-items: flex-start; margin-bottom: 10px;
+            padding: 5px; border-radius: 4px;
+        }
+        .tf-question-number {
+            border: 2px solid var(--border-medium);
+            padding: 2px 8px; margin-right: 10px;
+            border-radius: 3px; font-weight: bold;
+            color: var(--text); flex-shrink: 0;
+        }
+        .tf-question-text { padding-top: 2px; color: var(--text); }
+        .tf-options { padding-left: 5px; }
+        .tf-option {
+            display: flex; align-items: center;
+            margin-bottom: 10px; cursor: pointer; color: var(--text);
+        }
+        .tf-option input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
+        .tf-question.correct .tf-question-line { background-color: var(--correct-bg); }
+        .tf-question.incorrect .tf-question-line { background-color: var(--incorrect-bg); }
+
+        /* MCQ */
+        .multi-choice-question { margin-bottom: 22px; padding: 8px; border-radius: 4px; border: 3px solid transparent; color: var(--text); }
+        .multi-choice-option { margin-bottom: 8px; padding: 6px; border-radius: 4px; color: var(--text); }
+        .multi-choice-option label { display: flex; align-items: flex-start; cursor: pointer; font-size: 15px; color: var(--text); }
+        .multi-choice-option input[type="radio"] { margin-right: 10px; margin-top: 3px; transform: scale(1.2); accent-color: var(--active-blue); flex-shrink: 0; }
+        .multi-choice-option.correct { background-color: var(--correct-bg); }
+        .multi-choice-option.incorrect { background-color: var(--incorrect-bg); }
+
+        /* Matching form */
+        .matching-form-container { margin-top: 15px; }
+        .matching-form-row {
+            display: flex; align-items: flex-start; margin-bottom: 14px;
+            gap: 10px;
+        }
+        .matching-form-label { flex: 1; color: var(--text); padding-top: 3px; line-height: 1.4; }
+        .matching-form-row.correct { background-color: var(--correct-bg); border-left: 3px solid var(--correct-border); padding-left: 8px; border-radius: 4px; }
+        .matching-form-row.incorrect { background-color: var(--incorrect-bg); border-left: 3px solid var(--incorrect-border); padding-left: 8px; border-radius: 4px; }
+
+        /* Summary completion */
+        .summary-text p { line-height: 2.6; font-size: 15px; color: var(--text); }
+
+        .example-box {
+            border: 1px solid var(--border);
+            background-color: var(--example-bg);
+            padding: 14px;
+            border-radius: 5px;
+            margin: 15px 0;
+            color: var(--text);
+        }
+        .example-box ul { list-style: none; padding-left: 0; margin-top: 8px; }
+        .example-box ul li { margin-bottom: 4px; color: var(--text); }
+
+        /* Sentence ending matching */
+        .sentence-ending-row { display: flex; align-items: flex-start; margin-bottom: 14px; gap: 10px; }
+        .sentence-ending-label { flex: 1; color: var(--text); line-height: 1.4; }
+
+        /* Nav arrows */
+        .nav-arrows {
+            position: fixed; bottom: 100px; right: 20px;
+            display: flex; gap: 5px; z-index: 101;
+        }
+        .nav-arrow {
+            width: 46px; height: 46px;
+            background: #333; color: white;
+            border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; font-weight: bold;
+            border-radius: 4px;
+        }
+        body.night-mode .nav-arrow { background: #444; }
+        .nav-arrow:hover { background: #555; }
+        .nav-arrow:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* Bottom nav */
+        .nav-row {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--nav-bg);
+            display: flex; align-items: center;
+            height: 80px; z-index: 100;
+            border-top: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .footer__questionWrapper___1tZ46 {
+            display: flex; align-items: center;
+            margin-right: 15px; flex-shrink: 0;
+        }
+        .footer__questionNo___3WNct {
+            background: none; border: none;
+            padding: 8px 12px;
+            font-size: 15px; font-weight: 600;
+            color: var(--text); cursor: pointer;
+            display: flex; align-items: center; gap: 4px;
+            font-family: Arial, sans-serif;
+        }
+        .footer__questionNo___3WNct:hover { background-color: var(--bg-secondary); }
+        .attemptedCount { font-size: 13px; color: var(--text-muted); margin-left: 4px; font-weight: 400; }
+
+        .footer__subquestionWrapper___9GgoP { display: none; gap: 2px; margin-left: 8px; }
+        .footer__questionWrapper___1tZ46.selected .footer__subquestionWrapper___9GgoP { display: flex; }
+        .footer__questionWrapper___1tZ46.selected .attemptedCount { display: none; }
+
+        .subQuestion {
+            width: 30px; height: 30px;
+            border: 1px solid var(--subq-border);
+            background: var(--subq-bg); color: var(--subq-text);
+            font-size: 13px; font-weight: 500;
+            cursor: pointer; display: flex;
+            align-items: center; justify-content: center;
+            border-radius: 2px; transition: all 0.2s;
+            font-family: Arial, sans-serif;
+        }
+        .subQuestion:hover { background-color: var(--bg-secondary); }
+        .subQuestion.active { background-color: var(--active-blue); color: white; border-color: var(--active-blue); }
+        .subQuestion.answered { background-color: #6c8ebf; color: white; border-color: #5a7aad; }
+        .subQuestion.correct { background-color: #28a745; color: white; border-color: #28a745; }
+        .subQuestion.incorrect { background-color: #dc3545; color: white; border-color: #dc3545; }
+
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+        .footer__deliverButton___3FM07 {
+            margin-left: auto; margin-right: 20px;
+            background-color: #4a90e2; color: white;
+            border: none; padding: 10px 20px;
+            border-radius: 4px; font-size: 15px;
+            font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            min-width: 160px; justify-content: center;
+            font-family: Arial, sans-serif;
+            transition: background-color 0.2s;
+        }
+        .footer__deliverButton___3FM07:hover { background-color: #357abd; }
+        .footer__deliverButton___3FM07:disabled { background: var(--bg-secondary); color: var(--text-muted); cursor: not-allowed; }
+
+        .hidden { display: none !important; }
+
+        /* Highlight toolbar */
+        .highlight-toolbar {
+            position: fixed; display: none;
+            background: var(--toolbar-bg);
+            border-radius: 8px;
+            box-shadow: var(--toolbar-shadow);
+            z-index: 2000; padding: 6px 8px;
+            gap: 4px; align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .highlight-toolbar.visible { display: flex; }
+        .toolbar-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            gap: 4px; padding: 5px 10px;
+            border: none; border-radius: 6px; cursor: pointer;
+            font-size: 13px; font-weight: 600;
+            transition: all 0.15s; white-space: nowrap;
+            font-family: Arial, sans-serif;
+        }
+        .toolbar-btn:hover { filter: brightness(1.2); }
+        .toolbar-btn.btn-yellow { background: #f9a825; color: #1a1a1a; }
+        .toolbar-btn.btn-green  { background: #43a047; color: #fff; }
+        .toolbar-btn.btn-pink   { background: #e91e63; color: #fff; }
+        .toolbar-btn.btn-blue   { background: #1976d2; color: #fff; }
+        .toolbar-btn.btn-clear  { background: #757575; color: #fff; }
+        .toolbar-sep { width: 1px; height: 22px; background: rgba(255,255,255,0.2); margin: 0 2px; }
+
+        .highlight { background-color: #ffeb3b; border-radius: 2px; }
+        .highlight.hl-green { background-color: #a5d6a7; }
+        .highlight.hl-pink  { background-color: #f48fb1; }
+        .highlight.hl-blue  { background-color: #90caf9; }
+        body.night-mode .highlight         { background-color: #f9a825; color: #000; }
+        body.night-mode .highlight.hl-green { background-color: #388e3c; color: #fff; }
+        body.night-mode .highlight.hl-pink  { background-color: #c2185b; color: #fff; }
+        body.night-mode .highlight.hl-blue  { background-color: #1565c0; color: #fff; }
+
+        /* Results modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.75);
+            z-index: 2000; display: flex;
+            justify-content: center; align-items: center;
+        }
+        .modal-overlay.hidden { display: none; }
+        .modal-content {
+            background: var(--modal-bg);
+            padding: 25px; border-radius: 12px;
+            width: 90%; max-width: 620px;
+            max-height: 85vh;
+            display: flex; flex-direction: column;
+            position: relative; border: 1px solid var(--border);
+            font-family: Arial, sans-serif;
+        }
+        .modal-close-btn { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 26px; cursor: pointer; color: var(--text-muted); }
+        .modal-content h2 { text-align: center; margin-bottom: 15px; color: var(--text); }
+        .results-summary {
+            display: flex; justify-content: space-around;
+            margin-bottom: 18px; font-size: 18px;
+            font-weight: bold; text-align: center;
+            border-bottom: 1px solid var(--border); padding-bottom: 15px;
+            color: var(--text);
+        }
+        .results-details-container { overflow-y: auto; padding-right: 8px; }
+        .result-row {
+            display: grid; grid-template-columns: 40px 1fr 1fr;
+            gap: 10px; padding: 7px 5px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px; color: var(--text);
+        }
+        .result-row.incorrect { background-color: var(--incorrect-bg); }
+        .result-row .q-num { font-weight: bold; }
+        .result-row .user-ans { color: var(--text-muted); }
+        .result-row .correct-ans { color: var(--correct-border); font-weight: 500; }
+        .correct-answer-display { font-weight: bold; color: #28a745; margin-left: 8px; font-size: 13px; font-family: Arial, sans-serif; }
+        .correct-answer-highlight { background-color: var(--correct-bg) !important; border: 1px solid var(--correct-border) !important; border-radius: 4px; padding: 2px 4px; }
+        .tf-option.correct-answer-highlight, .multi-choice-option.correct-answer-highlight { background-color: var(--correct-bg) !important; border: 1px solid var(--correct-border) !important; border-radius: 4px; padding: 4px; }
+
+        .active-question { outline: 2px solid var(--active-blue); border-radius: 4px; }
+
+        /* Notes */
+        .notes-panel {
+            position: fixed; right: 20px; top: 70px;
+            width: 270px; max-height: calc(100vh - 170px);
+            background: var(--modal-bg); border: 1px solid var(--border);
+            border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            z-index: 500; overflow-y: auto;
+            display: none; flex-direction: column;
+        }
+        .notes-panel.visible { display: flex; }
+        .notes-panel-header {
+            padding: 10px 14px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: 700; font-size: 13px; color: var(--text);
+            background: var(--bg-secondary); border-radius: 10px 10px 0 0;
+            font-family: Arial, sans-serif;
+        }
+        .notes-panel-close { background: none; border: none; cursor: pointer; font-size: 16px; color: var(--text-muted); }
+        .notes-list { padding: 8px; flex: 1; }
+        .note-item { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 12px; color: var(--text); font-family: Arial, sans-serif; }
+        .note-item-text { font-weight: 600; color: #f57f17; margin-bottom: 3px; font-size: 11px; }
+        .note-item-delete { background: none; border: none; color: var(--incorrect-border); cursor: pointer; font-size: 11px; float: right; }
+        .notes-empty { color: var(--text-muted); font-size: 12px; padding: 8px; text-align: center; font-family: Arial, sans-serif; }
+
+        .note-input-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 3000; display: none; align-items: center; justify-content: center; }
+        .note-input-overlay.visible { display: flex; }
+        .note-input-box { background: var(--modal-bg); border-radius: 12px; padding: 22px; width: 360px; max-width: 90vw; box-shadow: 0 12px 40px rgba(0,0,0,0.4); border: 1px solid var(--border); font-family: Arial, sans-serif; }
+        .note-input-box h3 { margin-bottom: 8px; font-size: 15px; color: var(--text); }
+        .note-input-box .selected-text-preview { background: var(--bg-secondary); border-left: 3px solid #f9a825; padding: 6px 10px; margin-bottom: 12px; font-size: 12px; color: var(--text-muted); border-radius: 0 4px 4px 0; max-height: 50px; overflow: hidden; }
+        .note-input-box textarea { width: 100%; min-height: 70px; padding: 8px; border: 1px solid var(--border-medium); border-radius: 6px; font-size: 13px; background: var(--input-bg); color: var(--text); resize: vertical; outline: none; font-family: inherit; }
+        .note-input-box textarea:focus { border-color: var(--active-blue); }
+        .note-input-actions { display: flex; gap: 8px; margin-top: 10px; justify-content: flex-end; }
+        .note-input-actions button { padding: 7px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; }
+        .btn-save-note { background: #f9a825; color: #1a1a1a; }
+        .btn-cancel-note { background: var(--bg-secondary); color: var(--text); border: 1px solid var(--border) !important; }
+
+        #toolbar-selection-btns, #toolbar-highlight-btns { display: inline-flex; align-items: center; gap: 4px; }
+
+        /* Passage 1 notice */
+        .pdf-notice {
+            background: #fff3cd; border: 1px solid #ffc107;
+            border-radius: 8px; padding: 20px; margin: 20px 0;
+            font-family: Arial, sans-serif; color: #856404;
+        }
+        .pdf-notice h3 { margin-bottom: 8px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="timer-container">
+                <span class="timer-display">60:00</span>
+                <div class="timer-controls">
+                    <button id="timer-toggle-btn" title="Pause/Resume Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>
+                    </button>
+                    <button id="timer-reset-btn" title="Reset Timer">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                    </button>
+                </div>
+            </div>
+            <button id="night-mode-btn" title="Toggle Night Mode">🌙 Night Mode</button>
+            <button id="notes-toggle-btn" style="background:var(--footer-btn-bg);border:1px solid var(--border-medium);border-radius:20px;padding:5px 12px;cursor:pointer;font-size:13px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px;font-family:Arial,sans-serif;">
+                📝 Notes <span id="notes-count" style="background:#f9a825;color:#1a1a1a;border-radius:10px;padding:1px 6px;font-size:11px;display:none;">0</span>
+            </button>
+        </div>
+        <a href="https://t.me/ielts_material_full" target="_blank" class="telegram-link">📚 Full Exam Materials</a>
+    </div>
+
+    <div class="main-container" id="main-container">
+        <div id="passage-header-container">
+            <div id="part-header-1" class="part-header">
+                <p>Part 1 &nbsp;—&nbsp; Read the text and answer Questions 1–13.</p>
+                <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">You should spend about 20 minutes on this section.</p>
+            </div>
+            <div id="part-header-2" class="part-header hidden">
+                <p>Part 2 &nbsp;—&nbsp; Read the text and answer Questions 14–26.</p>
+                <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">You should spend about 20 minutes on this section.</p>
+            </div>
+            <div id="part-header-3" class="part-header hidden">
+                <p>Part 3 &nbsp;—&nbsp; Read the text and answer Questions 27–40.</p>
+                <p style="font-size:13px;color:var(--text-muted);margin-top:4px;">You should spend about 20 minutes on this section.</p>
+            </div>
+        </div>
+
+        <div class="panels-container">
+            <!-- ══════════════ PASSAGE PANEL ══════════════ -->
+            <div class="passage-panel" id="passage-panel">
+
+                <!-- PASSAGE 1 — Deep Sea Discovery -->
+                <div id="passage-text-1" class="reading-passage">
+                    <h4>Deep Sea Discovery</h4>
+                    <p style="font-style:italic;font-size:13px;color:var(--text-muted);margin-bottom:4px;"><em>pigments: a pigment is a substance that gives something a particular colour</em></p>
+
+                    <p><span class="para-label">A &nbsp;&nbsp;</span>Nico Michiels is an ecologist from the University of Tubingen in Germany who spends part of each year in Egypt, where he dives in the Red Sea, observing fish life and gathering data on its coral reefs. In September 2007 he decided to find out how far red light could penetrate the ocean depths. Seawater absorbs different colours at different depths, and as an experienced diver, Michiels was aware that red light is extinguished not far below the surface whereas blue-green light penetrates deeper. To find out the depth at which red disappeared in this particular ocean, however, he attached a special plastic filter to his dive mask which was designed to block out all colours except red. Then he began to descend. In theory, once he reached about 15 metres, he should have been plunged into darkness. Instead, something totally unexpected happened. Sure enough, 20 metres down it was as dark as night. "All the fish disappeared. With no light from the surface, they were effectively black and had become invisible," he says. "But it didn't stay black for long. Then I saw a group of goby fish with bright red eyes lit up against the background. After that red spots began to show up all over the reef."</p>
+
+                    <p><span class="para-label">B &nbsp;&nbsp;</span>Even with the red filter removed, Michiels could pick them out without much trouble once his eyes grew accustomed to the gloom. It seems strange that no diver or researcher had spotted all this red before, but as Michiels points out, no one saw it because no one expected to see it. On that one dive Michiels discovered three fish species with prominent red markings, and has found many others since.</p>
+
+                    <p><span class="para-label">C &nbsp;&nbsp;</span>But how can fish appear red where there's no red light? Ordinary red pigments look red because they reflect red light while absorbing all other wavelengths. At 20 metres down, there had to be some other explanation for the red Michiels was seeing. He suspected fluorescence. Fluorescent pigments behave differently from ordinary ones: they receive incoming light of one wavelength, for example blue, and emit light of a longer wavelength, in this case red. On the reef in the Red Sea during daytime, the most likely explanation was that the predominantly blue and green wavelengths at depth triggered the emission of fluorescent red in the fish.</p>
+
+                    <p><span class="para-label">D &nbsp;&nbsp;</span>With only a week left in Egypt, and lacking the equipment to confirm that the fish were fluorescent, Michiels photographed as many of them as he could. Then once back in Germany, he bought an assortment of tropical fish and installed them in his lab. Here he confirmed that the fish did indeed fluoresce. In most of the fish he looked at, the fluorescence could be traced to specialised pigment cells that lie in the skin beneath the scales. These cells contain <em>guanine crystals</em>, which scatter light to give fish their silvery sheen. However, Michiels says they are still not sure exactly what is fluorescing. "It's not the crystals themselves. It's probably a fluorescent protein built into the crystals, and we have a suspicion that it might be made by bacteria."</p>
+
+                    <p><span class="para-label">E &nbsp;&nbsp;</span>Intrigued, Michiels began a systematic search for red fluorescence in reef fish. He and his colleagues, Nils Anthes and Dennis Sprenger, have identified some 50 species with red fluorescence. The most common markings tend to be on the body towards the head and to a lesser extent around the eyes, and then the fins. To Michiels, the distribution of these markings is one of the strongest indications that red fluorescence has a very particular function: communication with other members of the species. According to several recent studies, a whole range of animals employ fluorescence as a natural highlighter to boost the visibility of body parts they use to signal, for example to ward off enemies. In reef fish, the red tends to be confined to parts of the body used to signal, suggesting these markings serve a similar function. But instead of highlighting an existing colour, the fluorescence gives the fish a colour that otherwise wouldn't exist. For example, fish commonly use eye rings to signal that they are present and their direction of gaze, and Michiels suspects that red-eyed gobies use signals to indicate their location and keep their group together.</p>
+
+                    <p><span class="para-label">F &nbsp;&nbsp;</span>Red light, whatever its source, doesn't travel far through water, which suggests signals are intended to be private, seen only by nearby fish of the right species. There are several lines of evidence to support this, says Michiels. And closely related species do not have completely identical markings, which suggests they might be important in species recognition.</p>
+
+                    <p><span class="para-label">G &nbsp;&nbsp;</span>Michiels suspects red fluorescence has another important role for some reef fish: helping them blend in. During his first dive with the red filter, he noticed corals glow a dark but faint red too. Against this irregular red background, a fish that glows red all over would be hard to distinguish. More compelling for Michiels is the case of the scorpionfish, which lies perfectly still until food swims past which it then sucks in.</p>
+
+                    <p><span class="para-label">H &nbsp;&nbsp;</span>Yet if red plays any part in a fish's life then it must be able to see it. Fish that live in a world dominated by blue-green light are assumed to have eyes tuned to those wavelengths, and most marine fish that have been studied are thought incapable of seeing red. One exception is the seahorse, whose eyes are sensitive to red. As for the other fish, it remains to be seen.</p>
+                </div>
+
+                <!-- PASSAGE 2 — Gender Gap in NZ -->
+                <div id="passage-text-2" class="reading-passage hidden">
+                    <h4>The gender gap in New Zealand's high school examination results</h4>
+                    <p class="subtitle">Results from New Zealand's new national examinations for secondary schools are giving that country some cause for concern</p>
+
+                    <p><span class="para-label">A &nbsp;&nbsp;</span>The issue is the difference in pass rates between the sexes: at each level of the examination and across all school types, the difference is about 10 percentage points. Girls are doing better in every subject, and those in girls-only schools are taking top honours. The results are not a surprise: high school girls have been outperforming boys academically for more than a decade. It is an international phenomenon, and within Australia was the subject of much debate and controversy. Within New Zealand back in the 1980s, there was a concerted campaign, called 'Girls Can Do Anything', which was aimed at lifting girls' participation rates, achievement levels and aspirations. This was so successful that the pendulum has now swung to the other extreme. Views differ on how worried people should be. After all, for much of history, girls were excluded from any form of education, and this new phenomenon could be seen as a temporary over-correction before the balance is righted.</p>
+
+                    <p><span class="para-label">B &nbsp;&nbsp;</span>However, the New Zealand State Ministry of Education says it is taking the issue seriously. It is working with a reference group on boys' education which has been set up, and it has commissioned an Australian academic to report on interventions that have been found to work for boys, drawing particularly on Australia's experience. But some, such as former prison manager Celia Lashlie, the author of a book for parents of teenage boys, believe there is still resistance within the Education Ministry towards doing anything about the problem.</p>
+
+                    <p><span class="para-label">C &nbsp;&nbsp;</span>Education Ministry learning policy manager Steve Benson says that the 'National Certificate in Educational Achievement', or NCEA, as New Zealand's high school exams are called, is useful to employers and to universities because it provides a fine-grained picture of pupils' performance in every aspect of a subject, rather than just a pass or fail in an overall area. 'In most parts of the curriculum, for example in maths, there isn't really a gender gap. But literacy is a different matter. Even boys who are good at writing tend not to write so much. There's actually a quantity issue.'</p>
+
+                    <p><span class="para-label">D &nbsp;&nbsp;</span>The discrepancy in reading and writing skills between males and females shows up as early as preschool, and the difference is clear by the time these children enter high school. Not being good at literacy was not such a problem in the old days when many students left school for manual jobs after Year 11. But nowadays many more stay on to higher education, and almost all jobs require literacy skills. Roger Moses, the headmaster of Wellington College, says that the written content of NCEA papers is more demanding than the previous system of secondary school qualifications in New Zealand, even in subjects such as statistics and accounting.</p>
+
+                    <p><span class="para-label">E &nbsp;&nbsp;</span>New Zealand 15 year olds do very well in international reading tests, but beneath this average lies a wide variance, with New Zealand European girls most represented at the top and New Zealand Pacific Island boys at the bottom. Yet some European girls drop out, and some Pacific Island boys excel. In other words, the range in performance within each gender group is much greater than the gender differences. Ethnic differences, and differences in socio-economic status, may be more significant than the simple boy/girl explanation.</p>
+
+                    <p><span class="para-label">F &nbsp;&nbsp;</span>This makes the Education Ministry nervous about pushing solutions that emphasise stereotyped gender differences, rather than looking at under-achievement as a whole. Rob Burroughs, principal of Linwood High School in Christchurch, agrees. For three years his school ran separate boys' classes to try to address the disparity in performance, before abandoning them. The research showed that the boys did better in their own class than in the co-educational environment. But when he looked at which teachers they had, and how well those teachers' other classes did, it became clear that the difference was, instead, to do with the quality of instruction.</p>
+
+                    <p><span class="para-label">G &nbsp;&nbsp;</span>At Onslow College, Dr Stuart Martin would do away with the NCEA Level 1 exam if he could. He says that in Year 11, aged 15, boys are simply not mature enough to cope. They tend to think that just passing is enough, and that it's not necessary to work hard for a Merit or an Excellence grade. Often they are busy with other activities and part-time jobs. Boys' competitive instinct tends to come out later in their schooling years, especially if there is money attached or other tangible rewards. By 17, boys are catching up academically with the girls, and by the end of Year 13, boys are again winning the top prizes.</p>
+
+                    <p><span class="para-label">H &nbsp;&nbsp;</span>Boys in single-sex schools do better in NCEA across all levels, something economist Brian Easton reported after analysing data from the first year of NCEA's implementation. He said the results were valid, even when socio-economic status was taken into account. Dr Paul Baker, head of Waitaki Boys' High School in Oamaru, agrees. He thinks that although it is possible for all schools to do more to boost boys' performance, it is easier in a boys' school, where activities cannot be 'captured by girls'.</p>
+                </div>
+
+                <!-- PASSAGE 3 — Hidden Life of Trees -->
+                <div id="passage-text-3" class="reading-passage hidden">
+                    <h4>Review: <em>The Hidden Life of Trees</em> by Peter Wohlleben</h4>
+
+                    <p>That so many copies of Peter Wohlleben's book <em>The Hidden Life of Trees</em> have been sold is no surprise. Life in the urban jungle can be overwhelming, and many of us long to escape by seeking more natural environments. We hope an encounter with nature might make us feel more 'alive'. Would we use this same term to describe nature itself, though? Forests and the trees that form them are commonly perceived as objects lacking awareness, like rocks or stones. But here, Wohlleben would beg to differ. From his observations, he has concluded that they are conscious in a way we do not fully understand.</p>
+
+                    <p>In recent decades, a number of writers have investigated our planet's flora. <em>The Cabaret of Plants</em> by Richard Mabey and <em>What a Plant Knows</em> by Daniel Chamovitz, for example, have done much to reformulate our views about the green world. Central to many of these books is a serious message about sustainability, and <em>The Hidden Life of Trees</em> is no exception. What sets it apart is its approach to description: at the start Wohlleben announces that 'When you know that trees . . . have memories and that tree parents live together with their children, then you can no longer just chop them down.' Not everyone will be comfortable with this kind of anthropomorphism.</p>
+
+                    <p>Nevertheless, Wohlleben's experience of working in a beech forest in the Eifel mountains of Germany may put him in a better position than many to write a book about trees. In the introduction, he explains that he started out as a state-employed forester, taking care of trees purely for industrial reasons. The straighter they were, the more high-quality logs could be sawn. But after a while he began to appreciate trees for more than just their commercial worth. He gives some of the credit for this realisation to the tourists that would come to the forest, who were more enchanted by bent, crooked trees, which did not conform to the straight ideal.</p>
+
+                    <p>An anecdote that stands out is Wohlleben's encounter with 'the gnarled remains of an enormous tree stump' in the Eifel forest. More than anything else, it was this encounter that prompted him to look further into the hidden behaviour of trees. To his surprise, after scraping at the outside layer of bark covering the stump, he discovered a green layer underneath. This was chlorophyll, the pigment normally produced by living trees. Wohlleben realised that the only way the stump could still be alive was if the surrounding beeches were providing it with a sugar solution through their own roots.</p>
+
+                    <p>Wohlleben is not the first person to claim that trees are cooperative. In the 1990s, Dr Suzanne Simard realised that fir and birch trees were supplying each other with carbon. Simard's findings made complete sense to Wohlleben, who believes that this kind of nutrient exchange between neighbours is typical of a healthy forest. Wohlleben also had the opportunity to deepen his understanding of tree biology when researchers from Aachen University set up investigative programmes in his beech forest. Discussions with them reinforced his beliefs about the way trees thrived, and Wohlleben eventually found himself strongly opposed to some traditional forestry practices. He finally succeeded in persuading local villagers that the forest should be allowed to return to a natural state: this involved banning the use of machinery for logging, and giving up on pesticides for a start. Since then, Wohlleben has been noting how his beech forest has developed, and his observations formed the foundation for the book. Humour and a straightforward narrative make it instantly appealing to readers without a science background – elements that have successfully been translated into over a dozen languages. Those that do have scientific training, however, will be more demanding. Critics of Wohlleben point out that proper academic studies need to be done to prove all his claims are factually accurate. This seems a fair point. What the book will certainly do is transform nature lovers' experiences of a forest walk. Once you know what is happening below ground, you can't help but marvel at the complex life of trees. Will it transform the way we produce timber for the manufacturing industry? As large corporations tend to focus on immediate profits, they are hardly likely to adopt the longer-term practices that Wohlleben recommends.</p>
+
+                    <p>One of these is allowing trees to grow nearer to each other. This is the opposite of what happens in many state-owned forests, where foresters deliberately space out trees so they can get more sunlight and grow faster. But Wohlleben claims this spacing prevents vital root interaction, and so lowers resistance to drought. Older, established trees, he explains, draw up moisture through their deep roots and provide this to juvenile trees growing below them. Without this assistance, they could die. The relationship between fungi and trees is also given attention. For instance, when pines require more nitrogen, the fungi growing at their base release a poison into the soil. This poison kills many minute organisms, which release nitrogen as they die, and this is absorbed by the trees' roots. In return, the fungi receive photosynthesised sugar from the pines. Then Wohlleben explores the way trees employ scent, giving the example of acacia trees in sub-Saharan Africa. When giraffes begin feeding on an acacia's leaves, the tree emits ethylene gas as a warning to neighbouring acacias. These then pump tannins into their leaves – substances toxic to giraffes. More controversial is Wohlleben's suggestion that trees feel pain. Although scientific research has now established that if branches are broken off or the trunk is hit with an axe, a tree will emit electrical signals from the site of the wound, the application of the concept of 'pain' might be an instance where readers are unconvinced.</p>
+                </div>
+            </div>
+
+            <div class="resizer" id="resizer"></div>
+
+            <!-- ══════════════ QUESTIONS PANEL ══════════════ -->
+            <div class="questions-panel" id="questions-panel">
+
+                <!-- ── QUESTIONS 1-13 (Passage 1 — Deep Sea Discovery) ── -->
+                <div id="questions-1" class="question-set">
+                    <div class="questions-container">
+
+                        <!-- Q1-6: TRUE/FALSE/NOT GIVEN -->
+                        <div class="question" data-q-start="1" data-q-end="6">
+                            <div class="question-prompt">
+                                <p><strong>Questions 1–6</strong></p>
+                                <p>Choose <strong>TRUE</strong> if the statement agrees with the information given in the text.<br>
+                                Choose <strong>FALSE</strong> if the statement contradicts the information.<br>
+                                Choose <strong>NOT GIVEN</strong> if there is no information on this.</p>
+                            </div>
+
+                            <div class="tf-question" data-q-start="1" data-q-end="1">
+                                <div class="tf-question-line"><span class="tf-question-number">1</span><span class="tf-question-text">During his 2007 dive, Michiels expected to encounter total darkness at about 15 metres.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q1" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q1" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="2" data-q-end="2">
+                                <div class="tf-question-line"><span class="tf-question-number">2</span><span class="tf-question-text">Michiels could see the red markings on fish without the aid of the red filter.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q2" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q2" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="3" data-q-end="3">
+                                <div class="tf-question-line"><span class="tf-question-number">3</span><span class="tf-question-text">Other divers had assumed they would see fish with red markings.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q3" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q3" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="4" data-q-end="4">
+                                <div class="tf-question-line"><span class="tf-question-number">4</span><span class="tf-question-text">All the fish with red markings that Michiels found during his diving expeditions came from the Red Sea.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q4" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q4" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="5" data-q-end="5">
+                                <div class="tf-question-line"><span class="tf-question-number">5</span><span class="tf-question-text">Michiels first thought of the possibility that fish could fluoresce while he was in Germany.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q5" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q5" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="6" data-q-end="6">
+                                <div class="tf-question-line"><span class="tf-question-number">6</span><span class="tf-question-text">Michiels remains uncertain as to what creates fluorescence in fish.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q6" value="TRUE"> TRUE</label>
+                                    <label class="tf-option"><input type="radio" name="q6" value="FALSE"> FALSE</label>
+                                    <label class="tf-option"><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q7-13: Notes completion (ONE WORD ONLY) -->
+                        <div class="question" data-q-start="7" data-q-end="13">
+                            <div class="question-prompt">
+                                <p><strong>Questions 7–13</strong></p>
+                                <p>Complete the notes below.</p>
+                                <p>Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+                            </div>
+
+                            <div class="example-box">
+                                <p style="font-weight:bold;font-size:15px;margin-bottom:12px;">Michiels's Findings</p>
+
+                                <p style="font-weight:600;margin-bottom:8px;">Michiels has observed:</p>
+                                <ul style="list-style:disc;padding-left:20px;margin-bottom:14px;">
+                                    <li style="margin-bottom:8px;">50 types of fish with red fluorescence in total</li>
+                                    <li style="margin-bottom:8px;">markings mainly near the <strong>7</strong> <input type="text" class="answer-input" id="q7" placeholder="7" style="width:110px;"></li>
+                                </ul>
+
+                                <p style="font-weight:600;margin-bottom:8px;">Some of Michiels's beliefs are that:</p>
+                                <ul style="list-style:disc;padding-left:20px;margin-bottom:14px;">
+                                    <li style="margin-bottom:8px;">red fluorescence is used specifically for <strong>8</strong> <input type="text" class="answer-input" id="q8" placeholder="8" style="width:110px;"> purposes</li>
+                                    <li style="margin-bottom:8px;">fish, like some animals, use fluorescence to keep <strong>9</strong> <input type="text" class="answer-input" id="q9" placeholder="9" style="width:110px;"> away</li>
+                                    <li style="margin-bottom:8px;">gobies depend on red fluorescence to show their <strong>10</strong> <input type="text" class="answer-input" id="q10" placeholder="10" style="width:110px;"></li>
+                                    <li style="margin-bottom:8px;">there are variations in the markings of fish among those <strong>11</strong> <input type="text" class="answer-input" id="q11" placeholder="11" style="width:110px;"> which are very similar</li>
+                                </ul>
+
+                                <p style="font-weight:600;margin-bottom:8px;">Other benefits of red fluorescence:</p>
+                                <ul style="list-style:disc;padding-left:20px;margin-bottom:14px;">
+                                    <li style="margin-bottom:8px;">fish cannot easily be seen near backgrounds of <strong>12</strong> <input type="text" class="answer-input" id="q12" placeholder="12" style="width:110px;"> which give off a red light</li>
+                                    <li style="margin-bottom:8px;">helps some fish catch their prey</li>
+                                </ul>
+
+                                <p style="font-weight:600;margin-bottom:8px;">The ability to see red amongst fish:</p>
+                                <ul style="list-style:disc;padding-left:20px;">
+                                    <li style="margin-bottom:8px;">the only fish proven to have this ability is the <strong>13</strong> <input type="text" class="answer-input" id="q13" placeholder="13" style="width:110px;"></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ── QUESTIONS 14-26 (Passage 2 — Gender Gap NZ) ── -->
+                <div id="questions-2" class="question-set hidden">
+                    <div class="questions-container">
+
+                        <!-- Q14-16: Summary Completion -->
+                        <div class="question" data-q-start="14" data-q-end="16">
+                            <div class="question-prompt">
+                                <p><strong>Questions 14–16</strong></p>
+                                <p>Complete the summary below.</p>
+                                <p>Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+                                <p>Write your answer in boxes 14–16 on your answer sheet.</p>
+                            </div>
+                            <div class="example-box">
+                                <p style="text-align:center;font-weight:bold;margin-bottom:10px;">High school assessment in New Zealand</p>
+                                <div class="summary-text">
+                                    <p>New Zealanders are worried at the outcomes of their high school assessment system, because the <strong>14</strong> <input type="text" class="answer-input" id="q14" placeholder="14" style="width:120px;"> of girls are higher than those of boys by 10%. A gender gap has been apparent for over a <strong>15</strong> <input type="text" class="answer-input" id="q15" placeholder="15" style="width:120px;">. This situation is not unique to New Zealand, and has been noticed in <strong>16</strong> <input type="text" class="answer-input" id="q16" placeholder="16" style="width:120px;"> also.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q17-20: Paragraph matching -->
+                        <div class="question" data-q-start="17" data-q-end="20">
+                            <div class="question-prompt">
+                                <p><strong>Questions 17–20</strong></p>
+                                <p>Reading Passage 2 has eight paragraphs, <strong>A–H</strong>.</p>
+                                <p>Which paragraph contains the following information?</p>
+                                <p>Write the correct letter, <strong>A–H</strong>, in boxes 17–20 on your answer sheet.</p>
+                            </div>
+                            <div class="matching-form-container">
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>17</strong> &nbsp; an advantage of New Zealand's secondary school tests</label>
+                                    <select class="answer-input" id="q17">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>18</strong> &nbsp; a mention of current government initiatives to boost male achievement</label>
+                                    <select class="answer-input" id="q18">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>19</strong> &nbsp; when gender difference in literacy skills first becomes evident</label>
+                                    <select class="answer-input" id="q19">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>20</strong> &nbsp; findings that relate academic achievement to race</label>
+                                    <select class="answer-input" id="q20">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q21-26: People–statement matching -->
+                        <div class="question" data-q-start="21" data-q-end="26">
+                            <div class="question-prompt">
+                                <p><strong>Questions 21–26</strong></p>
+                                <p>Look at the following people (Questions 21–26) and the list of statements below.</p>
+                                <p>Match each person with the correct statement, <strong>A–H</strong>.</p>
+                                <p>Write the correct letter, <strong>A–H</strong>, in boxes 21–26 on your answer sheet.</p>
+                                <p style="color:var(--text-muted);font-size:13px;margin-top:4px;"><em>NB: You may use any letter more than once.</em></p>
+                            </div>
+                            <div class="example-box">
+                                <p style="font-weight:bold;margin-bottom:8px;">List of Statements</p>
+                                <ul>
+                                    <li><strong>A</strong> &nbsp; Boys gain lower marks on NCEA if they attend an all-boys' school.</li>
+                                    <li><strong>B</strong> &nbsp; Boys are disadvantaged by girls tending to take over at school.</li>
+                                    <li><strong>C</strong> &nbsp; Good teaching is more important than whether classrooms are single-sex or mixed.</li>
+                                    <li><strong>D</strong> &nbsp; Mathematical skills were not so important in the past.</li>
+                                    <li><strong>E</strong> &nbsp; The difference in achievement between school boys and girls is only evident in some subjects.</li>
+                                    <li><strong>F</strong> &nbsp; Older boys are more motivated to study than younger boys.</li>
+                                    <li><strong>G</strong> &nbsp; The NCEA exams have higher literacy standards than past exams did.</li>
+                                    <li><strong>H</strong> &nbsp; The New Zealand government is reluctant to take action on behalf of boys.</li>
+                                </ul>
+                            </div>
+                            <div class="matching-form-container">
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>21</strong> &nbsp; Celia Lashlie</label>
+                                    <select class="answer-input" id="q21">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>22</strong> &nbsp; Steve Benson</label>
+                                    <select class="answer-input" id="q22">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>23</strong> &nbsp; Roger Moses</label>
+                                    <select class="answer-input" id="q23">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>24</strong> &nbsp; Rob Burroughs</label>
+                                    <select class="answer-input" id="q24">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>25</strong> &nbsp; Stuart Martin</label>
+                                    <select class="answer-input" id="q25">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>26</strong> &nbsp; Paul Baker</label>
+                                    <select class="answer-input" id="q26">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option><option>H</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ── QUESTIONS 27-40 (Passage 3 — Hidden Life of Trees) ── -->
+                <div id="questions-3" class="question-set hidden">
+                    <div class="questions-container">
+
+                        <!-- Q27-30: Multiple choice -->
+                        <div class="question" data-q-start="27" data-q-end="30">
+                            <div class="question-prompt">
+                                <p><strong>Questions 27–30</strong></p>
+                                <p>Choose the correct letter, <strong>A, B, C</strong> or <strong>D</strong>.</p>
+                                <p>Write the correct letter in boxes 27–30 on your answer sheet.</p>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="27" data-q-end="27">
+                                <p><strong>27</strong> &nbsp; What is the reviewer emphasising in the phrase 'Wohlleben would beg to differ'?</p>
+                                <div class="multi-choice-options">
+                                    <div class="multi-choice-option"><label><input type="radio" name="q27" value="A"> A &nbsp; the fact that trees might not live as passively as we think</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q27" value="B"> B &nbsp; the idea that a forest trip might increase people's vitality</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q27" value="C"> C &nbsp; the way that a forest is the key feature of many landscapes</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q27" value="D"> D &nbsp; the belief that trees exist only for the benefit of humans</label></div>
+                                </div>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="28" data-q-end="28">
+                                <p><strong>28</strong> &nbsp; According to the reviewer, a unique feature of <em>The Hidden Life of Trees</em> is</p>
+                                <div class="multi-choice-options">
+                                    <div class="multi-choice-option"><label><input type="radio" name="q28" value="A"> A &nbsp; its suggestion that ordinary people can act to protect forests.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q28" value="B"> B &nbsp; its viewpoint that only certain kinds of tree are worth preserving.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q28" value="C"> C &nbsp; its tendency to refer to trees as if they had human qualities.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q28" value="D"> D &nbsp; its simplistic rather than academic approach to writing.</label></div>
+                                </div>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="29" data-q-end="29">
+                                <p><strong>29</strong> &nbsp; What are we told about Peter Wohlleben's time as a state-employed forester?</p>
+                                <div class="multi-choice-options">
+                                    <div class="multi-choice-option"><label><input type="radio" name="q29" value="A"> A &nbsp; He hoped he could make a good living from cutting down trees.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q29" value="B"> B &nbsp; He changed his mind about the way in which trees were valuable.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q29" value="C"> C &nbsp; He rejected the ideas that visitors to the beech forest put forward.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q29" value="D"> D &nbsp; He introduced new techniques for improving the growth of trees.</label></div>
+                                </div>
+                            </div>
+
+                            <div class="multi-choice-question" data-q-start="30" data-q-end="30">
+                                <p><strong>30</strong> &nbsp; The reviewer mentions the tree stump anecdote in order to</p>
+                                <div class="multi-choice-options">
+                                    <div class="multi-choice-option"><label><input type="radio" name="q30" value="A"> A &nbsp; question traditional thinking about the way trees grow.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q30" value="B"> B &nbsp; explain the motivation behind Wohlleben's area of research.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q30" value="C"> C &nbsp; highlight Wohlleben's lack of formal scientific training.</label></div>
+                                    <div class="multi-choice-option"><label><input type="radio" name="q30" value="D"> D &nbsp; suggest how personal stories have brought a dull topic to life.</label></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q31-36: YES/NO/NOT GIVEN -->
+                        <div class="question" data-q-start="31" data-q-end="36">
+                            <div class="question-prompt">
+                                <p><strong>Questions 31–36</strong></p>
+                                <p>Do the following statements agree with the views of the writer in Reading Passage 3?</p>
+                                <p>In boxes 31–36 on your answer sheet, write</p>
+                                <ul>
+                                    <li><strong>YES</strong> &nbsp;&nbsp;&nbsp;&nbsp; if the statement agrees with the views of the writer</li>
+                                    <li><strong>NO</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if the statement contradicts the views of the writer</li>
+                                    <li><strong>NOT GIVEN</strong> &nbsp; if it is impossible to say what the writer thinks about this</li>
+                                </ul>
+                            </div>
+
+                            <div class="tf-question" data-q-start="31" data-q-end="31">
+                                <div class="tf-question-line"><span class="tf-question-number">31</span><span class="tf-question-text">Wohlleben was sceptical about the results of Dr Suzanne Simard's research.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q31" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q31" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q31" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="32" data-q-end="32">
+                                <div class="tf-question-line"><span class="tf-question-number">32</span><span class="tf-question-text">Wohlleben's theories about trees were confirmed after talking to Aachen University scientists.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q32" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q32" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q32" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="33" data-q-end="33">
+                                <div class="tf-question-line"><span class="tf-question-number">33</span><span class="tf-question-text">It was a good decision to get rid of machinery and pesticides from the beech forest.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q33" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q33" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q33" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="34" data-q-end="34">
+                                <div class="tf-question-line"><span class="tf-question-number">34</span><span class="tf-question-text">The translators of <em>The Hidden Life of Trees</em> should be given more recognition for their contribution.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q34" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q34" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q34" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="35" data-q-end="35">
+                                <div class="tf-question-line"><span class="tf-question-number">35</span><span class="tf-question-text">Some of Wohlleben's ideas about trees must be investigated further before they can be accepted as true.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q35" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q35" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q35" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+
+                            <div class="tf-question" data-q-start="36" data-q-end="36">
+                                <div class="tf-question-line"><span class="tf-question-number">36</span><span class="tf-question-text"><em>The Hidden Life of Trees</em> is likely to affect how forests are managed by the manufacturing industry.</span></div>
+                                <div class="tf-options">
+                                    <label class="tf-option"><input type="radio" name="q36" value="YES"> YES</label>
+                                    <label class="tf-option"><input type="radio" name="q36" value="NO"> NO</label>
+                                    <label class="tf-option"><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q37-40: Sentence endings -->
+                        <div class="question" data-q-start="37" data-q-end="40">
+                            <div class="question-prompt">
+                                <p><strong>Questions 37–40</strong></p>
+                                <p>Complete each sentence with the correct ending, <strong>A–G</strong>, below.</p>
+                                <p>Write the correct letter, <strong>A–G</strong>, in boxes 37–40 on your answer sheet.</p>
+                            </div>
+                            <div class="example-box">
+                                <ul>
+                                    <li><strong>A</strong> &nbsp; may prevent harm occurring to the same tree species.</li>
+                                    <li><strong>B</strong> &nbsp; can be the result of different forms of damage.</li>
+                                    <li><strong>C</strong> &nbsp; might help the spread of trees in a new location.</li>
+                                    <li><strong>D</strong> &nbsp; could be a sign that trees have reached maturity.</li>
+                                    <li><strong>E</strong> &nbsp; may affect how vulnerable young trees are during dry periods.</li>
+                                    <li><strong>F</strong> &nbsp; can play a part in providing essential nutrients.</li>
+                                    <li><strong>G</strong> &nbsp; might encourage disease in trees growing nearby.</li>
+                                </ul>
+                            </div>
+                            <div class="matching-form-container">
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>37</strong> &nbsp; The distance between trees in state-owned forests</label>
+                                    <select class="answer-input" id="q37">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>38</strong> &nbsp; The fungi growing at the base of trees</label>
+                                    <select class="answer-input" id="q38">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>39</strong> &nbsp; The scent sometimes given off by trees</label>
+                                    <select class="answer-input" id="q39">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option>
+                                    </select>
+                                </div>
+                                <div class="matching-form-row">
+                                    <label class="matching-form-label"><strong>40</strong> &nbsp; The electrical signals sent out by trees</label>
+                                    <select class="answer-input" id="q40">
+                                        <option value=""></option>
+                                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                                        <option>E</option><option>F</option><option>G</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div><!-- end questions-panel -->
+        </div><!-- end panels-container -->
+    </div><!-- end main-container -->
+
+    <!-- Navigation Arrows -->
+    <div class="nav-arrows">
+        <button class="nav-arrow" onclick="previousQuestion()" id="prevBtn">‹</button>
+        <button class="nav-arrow" onclick="nextQuestion()" id="nextBtn">›</button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="nav-row" aria-label="Questions">
+        <div class="footer__questionWrapper___1tZ46 selected" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(1)">
+                <span class="section-prefix">Part </span><span class="sectionNr">1</span>
+                <span class="attemptedCount">0 of 13</span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(1)">1</button>
+                <button class="subQuestion" onclick="goToQuestion(2)">2</button>
+                <button class="subQuestion" onclick="goToQuestion(3)">3</button>
+                <button class="subQuestion" onclick="goToQuestion(4)">4</button>
+                <button class="subQuestion" onclick="goToQuestion(5)">5</button>
+                <button class="subQuestion" onclick="goToQuestion(6)">6</button>
+                <button class="subQuestion" onclick="goToQuestion(7)">7</button>
+                <button class="subQuestion" onclick="goToQuestion(8)">8</button>
+                <button class="subQuestion" onclick="goToQuestion(9)">9</button>
+                <button class="subQuestion" onclick="goToQuestion(10)">10</button>
+                <button class="subQuestion" onclick="goToQuestion(11)">11</button>
+                <button class="subQuestion" onclick="goToQuestion(12)">12</button>
+                <button class="subQuestion" onclick="goToQuestion(13)">13</button>
+            </div>
+        </div>
+
+        <div class="footer__questionWrapper___1tZ46" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(2)">
+                <span class="section-prefix">Part </span><span class="sectionNr">2</span>
+                <span class="attemptedCount">0 of 13</span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(14)">14</button>
+                <button class="subQuestion" onclick="goToQuestion(15)">15</button>
+                <button class="subQuestion" onclick="goToQuestion(16)">16</button>
+                <button class="subQuestion" onclick="goToQuestion(17)">17</button>
+                <button class="subQuestion" onclick="goToQuestion(18)">18</button>
+                <button class="subQuestion" onclick="goToQuestion(19)">19</button>
+                <button class="subQuestion" onclick="goToQuestion(20)">20</button>
+                <button class="subQuestion" onclick="goToQuestion(21)">21</button>
+                <button class="subQuestion" onclick="goToQuestion(22)">22</button>
+                <button class="subQuestion" onclick="goToQuestion(23)">23</button>
+                <button class="subQuestion" onclick="goToQuestion(24)">24</button>
+                <button class="subQuestion" onclick="goToQuestion(25)">25</button>
+                <button class="subQuestion" onclick="goToQuestion(26)">26</button>
+            </div>
+        </div>
+
+        <div class="footer__questionWrapper___1tZ46" role="tablist">
+            <button role="tab" class="footer__questionNo___3WNct" onclick="switchToPart(3)">
+                <span class="section-prefix">Part </span><span class="sectionNr">3</span>
+                <span class="attemptedCount">0 of 14</span>
+            </button>
+            <div class="footer__subquestionWrapper___9GgoP">
+                <button class="subQuestion" onclick="goToQuestion(27)">27</button>
+                <button class="subQuestion" onclick="goToQuestion(28)">28</button>
+                <button class="subQuestion" onclick="goToQuestion(29)">29</button>
+                <button class="subQuestion" onclick="goToQuestion(30)">30</button>
+                <button class="subQuestion" onclick="goToQuestion(31)">31</button>
+                <button class="subQuestion" onclick="goToQuestion(32)">32</button>
+                <button class="subQuestion" onclick="goToQuestion(33)">33</button>
+                <button class="subQuestion" onclick="goToQuestion(34)">34</button>
+                <button class="subQuestion" onclick="goToQuestion(35)">35</button>
+                <button class="subQuestion" onclick="goToQuestion(36)">36</button>
+                <button class="subQuestion" onclick="goToQuestion(37)">37</button>
+                <button class="subQuestion" onclick="goToQuestion(38)">38</button>
+                <button class="subQuestion" onclick="goToQuestion(39)">39</button>
+                <button class="subQuestion" onclick="goToQuestion(40)">40</button>
+            </div>
+        </div>
+
+        <button id="deliver-button" class="footer__deliverButton___3FM07">
+            ✓ Check Answers
+        </button>
+    </nav>
+
+    <!-- Highlight Toolbar -->
+    <div id="highlightToolbar" class="highlight-toolbar">
+        <span id="toolbar-selection-btns">
+            <button class="toolbar-btn btn-yellow" onclick="applyHighlight('hl-yellow')" title="Yellow">🟡</button>
+            <button class="toolbar-btn btn-green"  onclick="applyHighlight('hl-green')"  title="Green">🟢</button>
+            <button class="toolbar-btn btn-pink"   onclick="applyHighlight('hl-pink')"   title="Pink">🔴</button>
+            <button class="toolbar-btn btn-blue"   onclick="applyHighlight('hl-blue')"   title="Blue">🔵</button>
+            <div class="toolbar-sep"></div>
+            <button class="toolbar-btn btn-clear"  onclick="clearThisHighlight()"  title="Remove">✕ Remove</button>
+            <button class="toolbar-btn btn-clear"  onclick="clearAllHighlights()"  title="Clear all">⊘ All</button>
+        </span>
+        <span id="toolbar-highlight-btns" style="display:none">
+            <button class="toolbar-btn btn-yellow" onclick="recolorHighlight('hl-yellow')">🟡</button>
+            <button class="toolbar-btn btn-green"  onclick="recolorHighlight('hl-green')">🟢</button>
+            <button class="toolbar-btn btn-pink"   onclick="recolorHighlight('hl-pink')">🔴</button>
+            <button class="toolbar-btn btn-blue"   onclick="recolorHighlight('hl-blue')">🔵</button>
+            <div class="toolbar-sep"></div>
+            <button class="toolbar-btn btn-clear"  onclick="clearThisHighlight()">✕ Remove</button>
+            <button class="toolbar-btn btn-clear"  onclick="clearAllHighlights()">⊘ All</button>
+        </span>
+    </div>
+
+    <!-- Notes Panel -->
+    <div id="notesPanel" class="notes-panel">
+        <div class="notes-panel-header">
+            <span>📝 My Notes</span>
+            <button class="notes-panel-close" onclick="toggleNotesPanel()">✕</button>
+        </div>
+        <div class="notes-list" id="notesList">
+            <p class="notes-empty">No notes yet. Select text to highlight and add notes.</p>
+        </div>
+    </div>
+
+    <!-- Note Input Modal -->
+    <div id="noteInputOverlay" class="note-input-overlay">
+        <div class="note-input-box">
+            <h3>Add a Note</h3>
+            <div class="selected-text-preview" id="noteTextPreview"></div>
+            <textarea id="noteTextarea" placeholder="Type your note here..."></textarea>
+            <div class="note-input-actions">
+                <button class="btn-cancel-note" onclick="cancelNote()">Cancel</button>
+                <button class="btn-save-note"   onclick="saveNote()">Save Note</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div id="results-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeResultsModal()">&times;</button>
+            <h2>Your Results</h2>
+            <div class="results-summary">
+                <p>Score: <span id="results-score"></span> / 40</p>
+                <p>IELTS Band: <span id="results-band"></span></p>
+            </div>
+            <div id="results-details" class="results-details-container"></div>
+            <div style="text-align:center;margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+                <button onclick="retakeTest()" style="background:#4a90e2;color:#fff;border:none;border-radius:6px;padding:10px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif;">🔄 Retake Test</button>
+                <button onclick="closeResultsModal()" style="background:var(--footer-btn-bg);color:var(--text);border:1px solid var(--border-medium);border-radius:6px;padding:10px 22px;font-size:15px;font-weight:600;cursor:pointer;margin-left:12px;font-family:Arial,sans-serif;">Review Answers</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentPassage = 1;
+        let currentQuestion = 1;
+        let selectedRange = null;
+        let selectedText = '';
+        let highlightTarget = null;
+        let lastAppliedHighlight = null;
+        let timeInSeconds = 3600;
+        let timerInterval;
+        let activeQuestionElement = null;
+        let notes = [];
+        let nextNoteId = 1;
+
+        const timerDisplay      = document.querySelector('.timer-display');
+        const timerToggleButton = document.getElementById('timer-toggle-btn');
+        const timerResetButton  = document.getElementById('timer-reset-btn');
+        const deliverButton     = document.getElementById('deliver-button');
+        const resizer           = document.getElementById('resizer');
+        const passagePanel      = document.getElementById('passage-panel');
+        const questionsPanel    = document.getElementById('questions-panel');
+        const highlightToolbar  = document.getElementById('highlightToolbar');
+        const nightModeBtn      = document.getElementById('night-mode-btn');
+        const notesToggleBtn    = document.getElementById('notes-toggle-btn');
+        const notesList         = document.getElementById('notesList');
+        const notesCount        = document.getElementById('notes-count');
+        const noteInputOverlay  = document.getElementById('noteInputOverlay');
+        const noteTextarea      = document.getElementById('noteTextarea');
+        const noteTextPreview   = document.getElementById('noteTextPreview');
+
+        const playIcon  = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M8 5v14l11-7L8 5z"/></svg>';
+        const pauseIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+        // ══════════════════════════════════════
+        //  CORRECT ANSWERS
+        // ══════════════════════════════════════
+        // Passage 1 (Q1-13): placeholder — marked as skip (null = auto-accept anything)
+        // Passage 2 (Q14-26): NZ Gender Gap
+        // Passage 3 (Q27-40): Hidden Life of Trees
+        const correctAnswers = {
+            // Passage 1 — Deep Sea Discovery
+            '1': 'TRUE',
+            '2': 'TRUE',
+            '3': 'FALSE',
+            '4': 'NOT GIVEN',
+            '5': 'FALSE',
+            '6': 'TRUE',
+            '7': 'head',
+            '8': ['communication', 'communicative'],
+            '9': 'enemies',
+            '10': 'location',
+            '11': ['species'],
+            '12': 'corals',
+            '13': 'seahorse',
+            // Passage 2
+            '14': ['pass rates', 'pass rate'],
+            '15': ['decade'],
+            '16': ['Australia'],
+            '17': 'C',
+            '18': 'B',
+            '19': 'D',
+            '20': 'E',
+            '21': 'H',
+            '22': 'E',
+            '23': 'G',
+            '24': 'C',
+            '25': 'F',
+            '26': 'B',
+            // Passage 3
+            '27': 'A',
+            '28': 'C',
+            '29': 'B',
+            '30': 'B',
+            '31': 'NO',
+            '32': 'YES',
+            '33': 'NOT GIVEN',
+            '34': 'NOT GIVEN',
+            '35': 'YES',
+            '36': 'NO',
+            '37': 'E',
+            '38': 'F',
+            '39': 'A',
+            '40': 'B',
+        };
+
+        // ══════════════════════════════════════
+        //  INIT
+        // ══════════════════════════════════════
+        function initialize() {
+            startTimer();
+            switchToPart(1);
+            document.body.addEventListener('input', updateAllIndicators);
+            document.body.addEventListener('change', updateAllIndicators);
+            deliverButton.addEventListener('click', checkAnswers);
+            timerToggleButton.addEventListener('click', toggleTimer);
+            timerResetButton.addEventListener('click', resetTimer);
+            nightModeBtn.addEventListener('click', toggleNightMode);
+            notesToggleBtn.addEventListener('click', toggleNotesPanel);
+            resizer.addEventListener('mousedown', initResize, false);
+            initializeHighlightToolbar();
+        }
+
+        // ══════════════════════════════════════
+        //  NIGHT MODE
+        // ══════════════════════════════════════
+        function toggleNightMode() {
+            document.body.classList.toggle('night-mode');
+            const isNight = document.body.classList.contains('night-mode');
+            nightModeBtn.innerHTML = isNight ? '☀️ Day Mode' : '🌙 Night Mode';
+        }
+
+        // ══════════════════════════════════════
+        //  ANSWER CHECKING
+        // ══════════════════════════════════════
+        function checkAnswers() {
+            // Reveal all sections temporarily to read inputs
+            const hiddenSections = document.querySelectorAll('.question-set.hidden, .reading-passage.hidden, .part-header.hidden');
+            hiddenSections.forEach(s => s.classList.remove('hidden'));
+
+            document.querySelectorAll('input, select, textarea').forEach(el => el.disabled = true);
+            deliverButton.disabled = true;
+            clearInterval(timerInterval);
+
+            let score = 0;
+            const resultsContainer = document.getElementById('results-details');
+            resultsContainer.innerHTML = '';
+
+            // Clear previous styling
+            document.querySelectorAll('.correct, .incorrect, .correct-answer-highlight').forEach(el => {
+                el.classList.remove('correct', 'incorrect', 'correct-answer-highlight');
+            });
+            document.querySelectorAll('.correct-answer-display').forEach(el => el.remove());
+
+            function getSection(qNum) {
+                if (qNum <= 13) return document.getElementById('questions-1');
+                if (qNum <= 26) return document.getElementById('questions-2');
+                return document.getElementById('questions-3');
+            }
+
+            function getInputEl(qNum) {
+                const sec = getSection(qNum);
+                return sec ? sec.querySelector(`#q${qNum}`) : null;
+            }
+
+            for (let i = 1; i <= 40; i++) {
+                const key = String(i);
+                const correct = correctAnswers[key];
+                let userAnswer = '';
+                let isCorrect = false;
+                let displayUser = 'Not Answered';
+                let displayCorrect = '';
+
+                if (correct === null) {
+                    // Should not happen — fallback
+                    const el = getInputEl(i);
+                    userAnswer = el ? el.value.trim() : '';
+                    isCorrect = userAnswer.length > 0;
+                    displayUser = userAnswer || 'Not Answered';
+                    displayCorrect = '(see PDF)';
+                    if (el) el.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (isCorrect) score++;
+                } else {
+                    // Radio buttons
+                    const radios = document.querySelectorAll(`input[name="q${i}"][type="radio"]`);
+                    if (radios.length > 0) {
+                        const checked = document.querySelector(`input[name="q${i}"]:checked`);
+                        userAnswer = checked ? checked.value : '';
+                        displayUser = userAnswer || 'Not Answered';
+                        displayCorrect = Array.isArray(correct) ? correct[0] : correct;
+                        isCorrect = userAnswer === displayCorrect;
+
+                        const container = radios[0].closest('.tf-question, .multi-choice-question');
+                        if (checked) {
+                            const lbl = checked.closest('.tf-option, .multi-choice-option');
+                            if (lbl) lbl.classList.add(isCorrect ? 'correct' : 'incorrect');
+                        }
+                        if (container) {
+                            if (isCorrect) {
+                                container.classList.add('correct');
+                            } else {
+                                container.classList.add('incorrect');
+                                const correctOpt = container.querySelector(`input[value="${displayCorrect}"]`);
+                                if (correctOpt) {
+                                    const lbl = correctOpt.closest('.tf-option, .multi-choice-option');
+                                    if (lbl) lbl.classList.add('correct-answer-highlight');
+                                }
+                            }
+                        }
+                        if (isCorrect) score++;
+                    } else {
+                        // Select or text input
+                        const el = getInputEl(i);
+                        if (el && el.tagName === 'SELECT') {
+                            userAnswer = el.value;
+                            displayUser = userAnswer || 'Not Answered';
+                            displayCorrect = Array.isArray(correct) ? correct[0] : correct;
+                            isCorrect = userAnswer === displayCorrect;
+                            const row = el.closest('.matching-form-row') || el;
+                            if (isCorrect) {
+                                score++;
+                                row.classList.add('correct');
+                            } else {
+                                row.classList.add('incorrect');
+                                const sp = document.createElement('span');
+                                sp.className = 'correct-answer-display';
+                                sp.innerHTML = ` ➜ <span class="correct-answer-highlight">${displayCorrect}</span>`;
+                                el.parentNode.insertBefore(sp, el.nextSibling);
+                            }
+                        } else if (el && el.tagName === 'INPUT') {
+                            userAnswer = el.value.trim();
+                            displayUser = userAnswer || 'Not Answered';
+                            const acceptables = Array.isArray(correct) ? correct : [correct];
+                            displayCorrect = acceptables[0];
+                            isCorrect = acceptables.some(a => userAnswer.toLowerCase() === a.toLowerCase());
+                            el.classList.add(isCorrect ? 'correct' : 'incorrect');
+                            if (isCorrect) {
+                                score++;
+                            } else {
+                                const sp = document.createElement('span');
+                                sp.className = 'correct-answer-display';
+                                sp.innerHTML = ` ➜ <span class="correct-answer-highlight">${displayCorrect}</span>`;
+                                el.parentNode.insertBefore(sp, el.nextSibling);
+                            }
+                        }
+                    }
+                }
+
+                // Result row
+                resultsContainer.innerHTML += `<div class="result-row ${isCorrect ? '' : 'incorrect'}"><span class="q-num">${i}</span><span class="user-ans">${escHtml(displayUser)}</span><span class="correct-ans">${escHtml(displayCorrect)}</span></div>`;
+
+                // Nav button
+                const navBtn = document.querySelector(`.subQuestion[onclick="goToQuestion(${i})"]`);
+                if (navBtn) {
+                    navBtn.classList.remove('answered', 'active');
+                    navBtn.classList.add(isCorrect ? 'correct' : 'incorrect');
+                }
+            }
+
+            document.getElementById('results-score').textContent = score;
+            document.getElementById('results-band').textContent  = calcBand(score);
+            document.getElementById('results-modal').classList.remove('hidden');
+        }
+
+        function calcBand(s) {
+            const m = {40:9.0,39:9.0,38:8.5,37:8.5,36:8.0,35:8.0,34:7.5,33:7.5,32:7.0,31:7.0,30:7.0,29:6.5,28:6.5,27:6.5,26:6.0,25:6.0,24:6.0,23:5.5,22:5.5,21:5.5,20:5.5,19:5.0,18:5.0,17:5.0,16:5.0,15:5.0,14:4.5,13:4.5,12:4.0,11:4.0,10:4.0,9:3.5,8:3.5,7:3.0,6:3.0,5:2.5,4:2.5,3:2.0,2:2.0,1:1.0,0:0.0};
+            return m[s] !== undefined ? m[s] : '0.0';
+        }
+
+        // ══════════════════════════════════════
+        //  PART SWITCHING & NAVIGATION
+        // ══════════════════════════════════════
+        function switchToPart(part) {
+            currentPassage = part;
+            document.querySelectorAll('.reading-passage, .question-set, .part-header').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`passage-text-${part}`).classList.remove('hidden');
+            document.getElementById(`questions-${part}`).classList.remove('hidden');
+            document.getElementById(`part-header-${part}`).classList.remove('hidden');
+            document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((w, i) => {
+                w.classList.toggle('selected', (i + 1) === part);
+            });
+            const firstQ = {1: 1, 2: 14, 3: 27}[part];
+            goToQuestion(firstQ);
+        }
+
+        function goToQuestion(qNum) {
+            currentQuestion = qNum;
+            let part = 1;
+            if (qNum >= 14 && qNum <= 26) part = 2;
+            else if (qNum >= 27) part = 3;
+
+            if (currentPassage !== part) {
+                currentPassage = part;
+                document.querySelectorAll('.reading-passage, .question-set, .part-header').forEach(el => el.classList.add('hidden'));
+                document.getElementById(`passage-text-${part}`).classList.remove('hidden');
+                document.getElementById(`questions-${part}`).classList.remove('hidden');
+                document.getElementById(`part-header-${part}`).classList.remove('hidden');
+                document.querySelectorAll('.footer__questionWrapper___1tZ46').forEach((w, i) => {
+                    w.classList.toggle('selected', (i + 1) === part);
+                });
+            }
+
+            if (activeQuestionElement) activeQuestionElement.classList.remove('active-question', 'active-input');
+
+            const target = document.querySelector(`[data-q-start="${qNum}"]`);
+            if (target) {
+                activeQuestionElement = target;
+                target.classList.add('active-question');
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            document.querySelectorAll('.subQuestion').forEach(btn => btn.classList.remove('active'));
+            const active = document.querySelector(`.subQuestion[onclick="goToQuestion(${currentQuestion})"]`);
+            if (active) active.classList.add('active');
+
+            document.querySelectorAll('.answer-input').forEach(el => el.classList.remove('active-input'));
+            const sec = currentQuestion <= 13 ? 'questions-1' : currentQuestion <= 26 ? 'questions-2' : 'questions-3';
+            const section = document.getElementById(sec);
+            if (section) {
+                const el = section.querySelector(`#q${currentQuestion}`);
+                if (el) { el.classList.add('active-input'); el.focus && el.focus(); }
+            }
+        }
+
+        window.nextQuestion     = () => currentQuestion < 40 && goToQuestion(currentQuestion + 1);
+        window.previousQuestion = () => currentQuestion > 1  && goToQuestion(currentQuestion - 1);
+        window.goToQuestion     = goToQuestion;
+        window.switchToPart     = switchToPart;
+
+        function updateAllIndicators() {
+            updateCount(1, 1, 13);
+            updateCount(2, 14, 26);
+            updateCount(3, 27, 40);
+            updateAnsweredNav();
+        }
+
+        function updateCount(part, start, end) {
+            let n = 0;
+            for (let i = start; i <= end; i++) if (isAnswered(i)) n++;
+            const w = document.querySelectorAll('.footer__questionWrapper___1tZ46')[part - 1];
+            if (w) {
+                const sp = w.querySelector('.attemptedCount');
+                if (sp) sp.textContent = `${n} of ${end - start + 1}`;
+            }
+        }
+
+        function updateAnsweredNav() {
+            document.querySelectorAll('.subQuestion').forEach(btn => {
+                const n = parseInt(btn.textContent, 10);
+                if (!btn.classList.contains('correct') && !btn.classList.contains('incorrect')) {
+                    btn.classList.toggle('answered', isAnswered(n));
+                }
+            });
+        }
+
+        function isAnswered(n) {
+            const sec = n <= 13 ? 'questions-1' : n <= 26 ? 'questions-2' : 'questions-3';
+            const section = document.getElementById(sec);
+            if (section) {
+                const el = section.querySelector(`#q${n}`);
+                if (el && el.tagName === 'INPUT' && el.value.trim()) return true;
+                if (el && el.tagName === 'SELECT' && el.value) return true;
+            }
+            if (document.querySelector(`input[name="q${n}"]:checked`)) return true;
+            return false;
+        }
+
+        // ══════════════════════════════════════
+        //  TIMER
+        // ══════════════════════════════════════
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (--timeInSeconds <= 0) { clearInterval(timerInterval); timerDisplay.textContent = "Time's up!"; return; }
+                updateTimerDisplay();
+            }, 1000);
+            timerToggleButton.innerHTML = pauseIcon;
+        }
+        function pauseTimer() { clearInterval(timerInterval); timerToggleButton.innerHTML = playIcon; }
+        function toggleTimer() {
+            timerToggleButton.innerHTML.includes('M6 19h4') ? pauseTimer() : startTimer();
+        }
+        function resetTimer() { timeInSeconds = 3600; updateTimerDisplay(); startTimer(); }
+        function updateTimerDisplay() {
+            const m = Math.floor(timeInSeconds / 60), s = timeInSeconds % 60;
+            timerDisplay.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        }
+
+        // ══════════════════════════════════════
+        //  RESIZER
+        // ══════════════════════════════════════
+        function initResize(e) {
+            e.preventDefault();
+            const startX = e.clientX, startW = passagePanel.offsetWidth;
+            const drag = e => {
+                const w = startW + e.clientX - startX;
+                if (w > 200 && (document.body.clientWidth - w - resizer.offsetWidth) > 200)
+                    passagePanel.style.flex = `0 0 ${w}px`;
+            };
+            const stop = () => { window.removeEventListener('mousemove', drag); window.removeEventListener('mouseup', stop); };
+            window.addEventListener('mousemove', drag);
+            window.addEventListener('mouseup', stop);
+        }
+
+        // ══════════════════════════════════════
+        //  HIGHLIGHT TOOLBAR
+        // ══════════════════════════════════════
+        function initializeHighlightToolbar() {
+            const panels = [passagePanel, questionsPanel];
+            const selBtns = document.getElementById('toolbar-selection-btns');
+            const hlBtns  = document.getElementById('toolbar-highlight-btns');
+
+            document.addEventListener('selectionchange', () => {
+                const sel = window.getSelection();
+                if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
+                    const range = sel.getRangeAt(0);
+                    if (panels.some(p => p.contains(range.commonAncestorContainer))) {
+                        selectedRange = range.cloneRange();
+                        selectedText  = sel.toString();
+                    }
+                }
+            });
+
+            document.addEventListener('mouseup', e => {
+                if (highlightToolbar.contains(e.target)) return;
+                if (noteInputOverlay.contains(e.target)) return;
+                const sel = window.getSelection();
+                const overHL = e.target.closest('.highlight');
+
+                if (overHL && (!sel || sel.isCollapsed)) {
+                    highlightTarget = overHL; lastAppliedHighlight = null; selectedRange = null;
+                    selBtns.style.display = 'none'; hlBtns.style.display = 'inline';
+                    positionToolbar(e); return;
+                }
+                if (sel && !sel.isCollapsed && sel.toString().trim().length > 0) {
+                    const range = sel.getRangeAt(0);
+                    if (panels.some(p => p.contains(range.commonAncestorContainer))) {
+                        highlightTarget = null; lastAppliedHighlight = null;
+                        selBtns.style.display = 'inline'; hlBtns.style.display = 'none';
+                        positionToolbar(e); return;
+                    }
+                }
+                hideToolbar();
+            });
+
+            document.addEventListener('keydown', e => { if (e.key === 'Escape') hideToolbar(); });
+            passagePanel.addEventListener('scroll', hideToolbar);
+            questionsPanel.addEventListener('scroll', hideToolbar);
+        }
+
+        function positionToolbar(e) {
+            highlightToolbar.classList.add('visible');
+            requestAnimationFrame(() => {
+                const w = highlightToolbar.offsetWidth || 280, h = highlightToolbar.offsetHeight || 44;
+                let left = e.pageX - w / 2, top = e.pageY - h - 14;
+                if (left < 8) left = 8;
+                if (left + w > window.innerWidth - 8) left = window.innerWidth - w - 8;
+                if (top < 68) top = e.pageY + 14;
+                highlightToolbar.style.left = left + 'px';
+                highlightToolbar.style.top  = top  + 'px';
+            });
+        }
+        function hideToolbar() { highlightToolbar.classList.remove('visible'); }
+
+        window.applyHighlight = function(cls) {
+            if (!selectedRange || selectedRange.collapsed) { hideToolbar(); return; }
+            try {
+                const span = document.createElement('span');
+                span.className = 'highlight ' + cls;
+                span.appendChild(selectedRange.extractContents());
+                selectedRange.insertNode(span);
+                lastAppliedHighlight = span;
+            } catch(e) {}
+            hideToolbar();
+            window.getSelection().removeAllRanges();
+            selectedRange = null;
+        };
+
+        window.recolorHighlight = function(cls) {
+            if (!highlightTarget) { hideToolbar(); return; }
+            highlightTarget.className = 'highlight ' + cls;
+            highlightTarget = null; hideToolbar();
+        };
+
+        window.clearThisHighlight = function() {
+            const t = highlightTarget || lastAppliedHighlight;
+            if (!t || !t.parentNode) { hideToolbar(); return; }
+            unwrap(t); highlightTarget = null; lastAppliedHighlight = null; hideToolbar();
+        };
+
+        window.clearAllHighlights = function() {
+            document.querySelectorAll('.highlight').forEach(unwrap);
+            highlightTarget = null; lastAppliedHighlight = null; hideToolbar();
+        };
+
+        function unwrap(el) {
+            const p = el.parentNode; if (!p) return;
+            while (el.firstChild) p.insertBefore(el.firstChild, el);
+            p.removeChild(el); p.normalize();
+        }
+
+        // ══════════════════════════════════════
+        //  NOTES
+        // ══════════════════════════════════════
+        function toggleNotesPanel() { document.getElementById('notesPanel').classList.toggle('visible'); }
+        window.toggleNotesPanel = toggleNotesPanel;
+
+        window.cancelNote = function() {
+            noteInputOverlay.classList.remove('visible');
+            hideToolbar();
+            window.getSelection().removeAllRanges();
+            selectedRange = null;
+        };
+
+        window.saveNote = function() {
+            const txt = noteTextarea.value.trim();
+            if (!txt) { noteTextarea.focus(); return; }
+            noteInputOverlay.classList.remove('visible');
+            hideToolbar();
+            window.getSelection().removeAllRanges();
+            selectedRange = null;
+        };
+
+        function escHtml(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        // ══════════════════════════════════════
+        //  MODAL
+        // ══════════════════════════════════════
+        window.closeResultsModal = function() { document.getElementById('results-modal').classList.add('hidden'); };
+
+        window.retakeTest = function() {
+            document.querySelectorAll('input, select, textarea').forEach(el => el.disabled = false);
+            deliverButton.disabled = false;
+            document.querySelectorAll('.correct, .incorrect, .correct-answer-highlight').forEach(el => {
+                el.classList.remove('correct', 'incorrect', 'correct-answer-highlight');
+            });
+            document.querySelectorAll('.correct-answer-display').forEach(el => el.remove());
+            document.querySelectorAll('input[type="text"]').forEach(el => el.value = '');
+            document.querySelectorAll('select').forEach(el => el.value = '');
+            document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+            document.querySelectorAll('.subQuestion').forEach(btn => {
+                btn.classList.remove('correct', 'incorrect', 'answered', 'active');
+            });
+            resetTimer();
+            document.getElementById('results-modal').classList.add('hidden');
+            switchToPart(1);
+            updateAllIndicators();
+        };
+
+        initialize();
+    });
+    </script>
+</body>
+</html>

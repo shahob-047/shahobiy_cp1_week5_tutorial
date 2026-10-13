@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>IELTS Listening Test</title>
+ <style>
+ :root {
+ --ielts-red: #da291c;
+ --focus-blue: #005eb8;
+ --bg-gray: #f4f4f4;
+ --border-gray: #ccc;
+ --text-dark: #333;
+ }
+
+ * {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ font-family: Tahoma, Geneva, sans-serif;
+ }
+
+ body {
+ display: flex;
+ flex-direction: column;
+ height: 100vh;
+ overflow: hidden;
+ background-color: #fff;
+ color: var(--text-dark);
+ }
+
+ /* HEADER */
+ header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 10px 20px;
+ background: #fff;
+ border-bottom: 1px solid var(--border-gray);
+ height: 60px;
+ flex-shrink: 0;
+ }
+
+ .header-left {
+ display: flex;
+ align-items: center;
+ gap: 20px;
+ }
+
+ .logo {
+ color: var(--ielts-red);
+ font-size: 24px;
+ font-weight: 900;
+ letter-spacing: -1px;
+ }
+
+ .test-info {
+ display: flex;
+ flex-direction: column;
+ }
+
+ .test-id {
+ font-weight: bold;
+ font-size: 14px;
+ }
+
+ .audio-status {
+ font-size: 12px;
+ display: flex;
+ align-items: center;
+ gap: 5px;
+ margin-top: 2px;
+ }
+
+ .header-right {
+ display: flex;
+ align-items: center;
+ gap: 20px;
+ }
+
+ .tg-link {
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ text-decoration: none;
+ color: #0088cc;
+ font-size: 13px;
+ font-weight: bold;
+ white-space: nowrap;
+ }
+
+ .tg-link:hover {
+ color: #006fa8;
+ }
+
+ .tg-link svg {
+ flex-shrink: 0;
+ }
+
+ /* MAIN WORKSPACE */
+ main {
+ flex-grow: 1;
+ overflow-y: auto;
+ padding: 30px 50px;
+ position: relative;
+ }
+
+ .context-banner {
+ background-color: #f2f2f2;
+ padding: 15px 20px;
+ border-radius: 5px;
+ margin-bottom: 30px;
+ }
+
+ .context-banner h3 {
+ font-size: 16px;
+ margin-bottom: 5px;
+ }
+
+ .instructions {
+ margin-bottom: 30px;
+ font-size: 15px;
+ }
+
+ .instructions strong {
+ display: block;
+ margin-bottom: 10px;
+ font-size: 16px;
+ }
+
+ .content-heading {
+ font-size: 18px;
+ margin-bottom: 20px;
+ }
+
+ /* INPUT STYLING */
+ .q-input {
+ width: 140px;
+ padding: 5px 10px;
+ border: 1px solid #777;
+ border-radius: 4px;
+ font-size: 15px;
+ margin: 0 5px;
+ outline: none;
+ text-align: center;
+ }
+
+ .q-input:focus {
+ border: 2px solid var(--focus-blue);
+ padding: 4px 9px;
+ }
+ 
+ .q-input.correct {
+ border-color: #2e7d32;
+ background-color: #e8f5e9;
+ color: #1b5e20;
+ }
+
+ .q-input.incorrect {
+ border-color: #c62828;
+ background-color: #ffebee;
+ color: #b71c1c;
+ }
+
+ /* LAYOUT GRIDS */
+ .notes-grid {
+ display: grid;
+ grid-template-columns: auto 1fr;
+ gap: 15px 20px;
+ margin-bottom: 40px;
+ align-items: center;
+ }
+
+ .notes-grid > div {
+ padding: 5px 0;
+ }
+
+ .sub-list {
+ margin-left: 20px;
+ list-style-type: none;
+ }
+
+ .sub-list li {
+ margin-bottom: 10px;
+ }
+
+ /* TABLE STYLING */
+ .test-table {
+ width: 100%;
+ border-collapse: collapse;
+ margin-bottom: 30px;
+ font-size: 15px;
+ }
+
+ .test-table th, .test-table td {
+ border: 1px solid #ccc;
+ padding: 12px;
+ text-align: left;
+ vertical-align: top;
+ }
+
+ .test-table th {
+ background-color: #f9f9f9;
+ font-weight: bold;
+ }
+
+ /* STANDARD QUESTIONS */
+ .question-block {
+ margin-bottom: 30px;
+ }
+
+ .question-block p {
+ display: flex;
+ align-items: baseline;
+ gap: 10px;
+ font-weight: normal;
+ margin-bottom: 6px;
+ font-size: 15px;
+ line-height: 1.5;
+ }
+
+ .q-num {
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ min-width: 28px;
+ height: 26px;
+ border: 1.5px solid #333;
+ font-weight: bold;
+ font-size: 13px;
+ flex-shrink: 0;
+ padding: 0 4px;
+ }
+
+ .mcq-option {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+ padding: 9px 14px;
+ margin-bottom: 1px;
+ cursor: pointer;
+ border-radius: 2px;
+ font-size: 14px;
+ width: 100%;
+ }
+
+ .mcq-option:hover {
+ background-color: #eef5fb;
+ }
+
+ .mcq-option:has(input:checked) {
+ background-color: #c8ddf2;
+ }
+ 
+ .mcq-option.correct-radio {
+ background-color: #e8f5e9;
+ border: 1px solid #2e7d32;
+ }
+ 
+ .mcq-option.incorrect-radio {
+ background-color: #ffebee;
+ border: 1px solid #c62828;
+ }
+
+ .section-divider {
+ margin: 50px 0;
+ border: 0;
+ border-top: 2px solid var(--border-gray);
+ }
+
+ /* NAVIGATION BUTTONS */
+ .nav-buttons {
+ display: flex;
+ justify-content: flex-end;
+ gap: 10px;
+ margin-top: 40px;
+ }
+
+ .nav-btn {
+ width: 40px;
+ height: 40px;
+ border: none;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ cursor: pointer;
+ font-size: 20px;
+ }
+
+ .btn-prev {
+ background-color: #e0e0e0;
+ color: #fff;
+ }
+
+ .btn-next {
+ background-color: #000;
+ color: #fff;
+ }
+
+ /* FOOTER */
+ footer {
+ height: 60px;
+ background-color: #f8f8f8;
+ display: flex;
+ align-items: center;
+ border-top: 1px solid var(--border-gray);
+ flex-shrink: 0;
+ }
+
+ .footer-trackers {
+ display: flex;
+ flex-grow: 1;
+ height: 100%;
+ }
+
+ .tracker-section {
+ flex: 1;
+ display: flex;
+ align-items: center;
+ padding: 0 15px;
+ border-right: 1px solid var(--border-gray);
+ position: relative;
+ cursor: pointer;
+ transition: background-color 0.15s;
+ }
+
+ .tracker-section:hover {
+ background-color: #efefef;
+ }
+
+ .tracker-section.active {
+ flex: 2;
+ }
+
+ .tracker-section.active::before {
+ content: '';
+ position: absolute;
+ top: 0;
+ left: 0;
+ right: 0;
+ height: 3px;
+ background-color: var(--focus-blue);
+ }
+
+ .tracker-section strong {
+ margin-right: 15px;
+ font-size: 14px;
+ }
+
+ .number-track {
+ display: flex;
+ gap: 5px;
+ }
+
+ .num-box {
+ width: 24px;
+ height: 24px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ font-size: 12px;
+ cursor: pointer;
+ }
+
+ .num-box.active {
+ border: 2px solid var(--focus-blue);
+ color: var(--focus-blue);
+ font-weight: bold;
+ }
+
+ .submit-btn {
+ width: 60px;
+ height: 100%;
+ background-color: #e6e6e6;
+ border: none;
+ border-left: 1px solid var(--border-gray);
+ font-size: 24px;
+ cursor: pointer;
+ transition: background-color 0.2s;
+ }
+ 
+ .submit-btn:hover {
+ background-color: #d4edda;
+ color: #155724;
+ }
+
+ /* PART NAVIGATION */
+ .part-section { display: none; }
+ .part-section.active { display: block; }
+
+ .tracker-summary {
+ font-size: 12px;
+ color: #666;
+ margin-left: 8px;
+ }
+
+ .tracker-section.active .tracker-summary { display: none; }
+ .tracker-section:not(.active) .number-track { display: none; }
+
+ /* HIGHLIGHT */
+ mark.user-highlight {
+ background-color: #ffe066;
+ border-radius: 2px;
+ padding: 0 1px;
+ cursor: pointer;
+ }
+ mark.user-highlight.green { background-color: #b6f5b6; }
+ mark.user-highlight.blue { background-color: #b3d9ff; }
+ mark.user-highlight.pink { background-color: #ffb3d1; }
+
+ #highlight-popup {
+ position: fixed;
+ display: none;
+ z-index: 9999;
+ background: #fff;
+ border: 1px solid #ddd;
+ border-radius: 8px;
+ box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+ padding: 6px 8px;
+ gap: 6px;
+ align-items: center;
+ flex-direction: row;
+ }
+
+ #highlight-popup.visible { display: flex; }
+
+ .hl-btn {
+ width: 26px;
+ height: 26px;
+ border-radius: 50%;
+ border: 2px solid transparent;
+ cursor: pointer;
+ transition: transform 0.1s, border-color 0.1s;
+ flex-shrink: 0;
+ }
+
+ .hl-btn:hover { transform: scale(1.2); border-color: #555; }
+ .hl-btn.yellow { background: #ffe066; }
+ .hl-btn.green { background: #b6f5b6; }
+ .hl-btn.blue { background: #b3d9ff; }
+ .hl-btn.pink { background: #ffb3d1; }
+
+ .hl-remove-btn {
+ width: 26px;
+ height: 26px;
+ border-radius: 50%;
+ border: 2px solid #ccc;
+ background: #fff;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 14px;
+ color: #888;
+ transition: border-color 0.1s, color 0.1s;
+ }
+ .hl-remove-btn:hover { border-color: #e53935; color: #e53935; }
+
+ </style>
+</head>
+<body>
+
+ <header>
+ <div class="header-left">
+ <div class="logo">IELTS</div>
+ <div class="test-info">
+ <div class="test-id">Test taker ID</div>
+ <div class="audio-status">
+ <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+ <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+ </svg>
+ Audio is Playing
+ </div>
+ </div>
+ </div>
+ <div class="header-right">
+ <a class="tg-link" href="https://t.me/DiyorbeksIELTSLC" target="_blank" rel="noopener noreferrer">
+ <svg width="18" height="18" viewBox="0 0 24 24" fill="#0088cc"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.5l-2.965-.924c-.644-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.983.059z"/></svg>
+ @DiyorbeksIELTSLC
+ </a>
+ </div>
+ </header>
+
+ <!-- Highlight popup -->
+ <div id="highlight-popup">
+ <button class="hl-btn yellow" data-color="" title="Yellow"></button>
+ <button class="hl-btn green" data-color="green" title="Green"></button>
+ <button class="hl-btn blue" data-color="blue" title="Blue"></button>
+ <button class="hl-btn pink" data-color="pink" title="Pink"></button>
+ <button class="hl-remove-btn" title="Remove highlight">&#x2715;</button>
+ </div>
+
+ <main id="main-content">
+ 
+ <!-- PART 1 -->
+ <section id="part1" class="part-section" data-part="1">
+ <div class="context-banner">
+ <h3>SECTION 1</h3>
+ <p>Listen and answer questions 1–10.</p>
+ </div>
+
+ <div class="instructions">
+ <strong>Questions 1–8</strong>
+ Choose the correct letter, A, B or C.
+ </div>
+
+ <div class="question-block" style="background-color: #f9f9f9; padding: 15px; border-left: 3px solid #ccc;">
+ <p><strong>Example</strong></p>
+ <p>The man wants to visit the centre with</p>
+ <label class="mcq-option" style="cursor: default;"><input type="radio" name="q_ex" disabled> A a friend</label>
+ <label class="mcq-option" style="cursor: default;"><input type="radio" name="q_ex" disabled checked> B relative</label>
+ <label class="mcq-option" style="cursor: default;"><input type="radio" name="q_ex" disabled> C colleagues</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">1</span> The centre has enough accommodation for</p>
+ <label class="mcq-option"><input type="radio" name="q1" value="A"> A 18 people</label>
+ <label class="mcq-option"><input type="radio" name="q1" value="B"> B 20 people</label>
+ <label class="mcq-option"><input type="radio" name="q1" value="C"> C 38 people</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">2</span> The meeting room is currently</p>
+ <label class="mcq-option"><input type="radio" name="q2" value="A"> A unavailable</label>
+ <label class="mcq-option"><input type="radio" name="q2" value="B"> B flooded</label>
+ <label class="mcq-option"><input type="radio" name="q2" value="C"> C booked</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">3</span> Visitors must tell the centre in advance if they want to</p>
+ <label class="mcq-option"><input type="radio" name="q3" value="A"> A use the centre's kitchen.</label>
+ <label class="mcq-option"><input type="radio" name="q3" value="B"> B have meals cooked for them.</label>
+ <label class="mcq-option"><input type="radio" name="q3" value="C"> C eat at restaurants outside.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">4</span> All visitors on the farm can</p>
+ <label class="mcq-option"><input type="radio" name="q4" value="A"> A get information about organic farming.</label>
+ <label class="mcq-option"><input type="radio" name="q4" value="B"> B help to feed the animals.</label>
+ <label class="mcq-option"><input type="radio" name="q4" value="C"> C watch a tractor demonstration.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">5</span> On the survival course people have to</p>
+ <label class="mcq-option"><input type="radio" name="q5" value="A"> A learn to use a map.</label>
+ <label class="mcq-option"><input type="radio" name="q5" value="B"> B find their own food.</label>
+ <label class="mcq-option"><input type="radio" name="q5" value="C"> C run through woodland.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">6</span> From the centre it is easy to walk to</p>
+ <label class="mcq-option"><input type="radio" name="q6" value="A"> A Exmoor National Park.</label>
+ <label class="mcq-option"><input type="radio" name="q6" value="B"> B the beach.</label>
+ <label class="mcq-option"><input type="radio" name="q6" value="C"> C a cycling route.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">7</span> If the weather is bad visitors can go to a</p>
+ <label class="mcq-option"><input type="radio" name="q7" value="A"> A cinema.</label>
+ <label class="mcq-option"><input type="radio" name="q7" value="B"> B theatre.</label>
+ <label class="mcq-option"><input type="radio" name="q7" value="C"> C museum.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">8</span> Groups who wish to stay at the centre must pay</p>
+ <label class="mcq-option"><input type="radio" name="q8" value="A"> A part of the cost in advance.</label>
+ <label class="mcq-option"><input type="radio" name="q8" value="B"> B all of the cost in advance.</label>
+ <label class="mcq-option"><input type="radio" name="q8" value="C"> C all of the cost on arrival.</label>
+ </div>
+
+ <div class="instructions" style="margin-top: 40px;">
+ <strong>Questions 9 and 10</strong>
+ Complete the notes below. Write <strong>ONE WORD AND/OR NUMBERS</strong> for each answer.
+ </div>
+
+ <div class="notes-grid">
+ <div>Address:</div>
+ <div>Winsham Farm</div>
+
+ <div></div>
+ <div><span class="q-num">9</span> <input type="text" id="q9" class="q-input" placeholder="9"> Rd.</div>
+
+ <div></div>
+ <div>Near Sherbone</div>
+
+ <div></div>
+ <div><span class="q-num">10</span> <input type="text" id="q10" class="q-input" placeholder="10"></div>
+ </div>
+ </section>
+
+ <!-- PART 2 -->
+ <section id="part2" class="part-section" data-part="2">
+ <div class="context-banner">
+ <h3>SECTION 2</h3>
+ <p>Listen and answer questions 11–20.</p>
+ </div>
+ 
+ <div class="instructions">
+ <strong>Questions 11–16</strong>
+ Complete the table below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.
+ </div>
+ 
+ <table class="test-table">
+ <thead>
+ <tr>
+ <th>Vacation Job</th>
+ <th>Main advantage</th>
+ <th>Main disadvantage</th>
+ <th>Recommendation</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>Stocktaking</td>
+ <td><span class="q-num">11</span> <input type="text" id="q11" class="q-input" placeholder="11" style="width: 120px;"></td>
+ <td>Tiring</td>
+ <td><span class="q-num">12</span> <input type="text" id="q12" class="q-input" placeholder="12" style="width: 120px;"></td>
+ </tr>
+ <tr>
+ <td>Office work</td>
+ <td>Air-conditioning</td>
+ <td><span class="q-num">13</span> <input type="text" id="q13" class="q-input" placeholder="13" style="width: 120px;"></td>
+ <td>Choose a <span class="q-num">14</span> <input type="text" id="q14" class="q-input" placeholder="14" style="width: 90px;"></td>
+ </tr>
+ <tr>
+ <td>Theme park attendant</td>
+ <td><span class="q-num">15</span> <input type="text" id="q15" class="q-input" placeholder="15" style="width: 120px;"></td>
+ <td>Rude customers</td>
+ <td><span class="q-num">16</span> <input type="text" id="q16" class="q-input" placeholder="16" style="width: 120px;"></td>
+ </tr>
+ </tbody>
+ </table>
+
+ <div class="instructions" style="margin-top: 40px;">
+ <strong>Questions 17–20</strong>
+ Choose the correct letter, A, B or C.
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">17</span> Peter learned about the job</p>
+ <label class="mcq-option"><input type="radio" name="q17" value="A"> A from a college friend.</label>
+ <label class="mcq-option"><input type="radio" name="q17" value="B"> B on the computer.</label>
+ <label class="mcq-option"><input type="radio" name="q17" value="C"> C from a student job centre.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">18</span> Peter mainly enjoyed the job because it was</p>
+ <label class="mcq-option"><input type="radio" name="q18" value="A"> A easy.</label>
+ <label class="mcq-option"><input type="radio" name="q18" value="B"> B challenging.</label>
+ <label class="mcq-option"><input type="radio" name="q18" value="C"> C unusual.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">19</span> The job's most interesting aspect was</p>
+ <label class="mcq-option"><input type="radio" name="q19" value="A"> A learning about the environment.</label>
+ <label class="mcq-option"><input type="radio" name="q19" value="B"> B working with children.</label>
+ <label class="mcq-option"><input type="radio" name="q19" value="C"> C caring for the animals.</label>
+ </div>
+
+ <div class="question-block">
+ <p><span class="q-num">20</span> Peter has decided that next vacation he</p>
+ <label class="mcq-option"><input type="radio" name="q20" value="A"> A won't take a job.</label>
+ <label class="mcq-option"><input type="radio" name="q20" value="B"> B will work at the zoo.</label>
+ <label class="mcq-option"><input type="radio" name="q20" value="C"> C will work elsewhere.</label>
+ </div>
+ </section>
+
+ <!-- PART 3 -->
+ <section id="part3" class="part-section" data-part="3">
+ <div class="context-banner">
+ <h3>SECTION 3</h3>
+ <p>Listen and answer questions 21–30.</p>
+ </div>
+ 
+ <div class="instructions">
+ <strong>Questions 21 and 22</strong>
+ Complete the notes below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.
+ </div>
+ 
+ <div class="notes-grid" style="grid-template-columns: 1fr;">
+ <div>
+ <strong>Reasons for having study Syndicates:</strong>
+ <ul class="sub-list">
+ <li>A. Teaching one another is a good way to learn</li>
+ <li>B. It gives the opportunity to <span class="q-num">21</span> <input type="text" id="q21" class="q-input" placeholder="21"> .</li>
+ <li>C. shared reading means fuller notes</li>
+ <li>D. you can do <span class="q-num">22</span> <input type="text" id="q22" class="q-input" placeholder="22"> .</li>
+ </ul>
+ </div>
+ </div>
+
+ <div class="instructions" style="margin-top: 30px;">
+ <strong>Questions 23–25</strong>
+ Complete the table below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.
+ </div>
+
+ <table class="test-table">
+ <thead>
+ <tr>
+ <th>Date</th>
+ <th>Geology Topic</th>
+ <th>Name of Presenter</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>9th May</td>
+ <td><span class="q-num">23</span> <input type="text" id="q23" class="q-input" placeholder="23" style="width: 140px;"></td>
+ <td>Bob</td>
+ </tr>
+ <tr>
+ <td><span class="q-num">24</span> <input type="text" id="q24" class="q-input" placeholder="24" style="width: 100px;"></td>
+ <td>Glaciated areas</td>
+ <td>Andy</td>
+ </tr>
+ <tr>
+ <td>23rd May</td>
+ <td>Rock formation</td>
+ <td>Helen and John</td>
+ </tr>
+ <tr>
+ <td><span class="q-num">25</span> <input type="text" id="q25" class="q-input" placeholder="25" style="width: 100px;"></td>
+ <td>Volcanoes</td>
+ <td>John</td>
+ </tr>
+ </tbody>
+ </table>
+
+ <div class="instructions" style="margin-top: 30px;">
+ <strong>Questions 26–30</strong>
+ Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.
+ </div>
+
+ <div class="notes-grid" style="grid-template-columns: 1fr;">
+ <div>
+ <strong>PLAN FOR STUDY SYNDICATE</strong>
+ <ul class="sub-list" style="margin-top: 10px;">
+ <li style="margin-bottom: 20px;">• Presentations should last for <span class="q-num">26</span> <input type="text" id="q26" class="q-input" placeholder="26"> .<br>
+ &nbsp;&nbsp;(plus time for <span class="q-num">27</span> <input type="text" id="q27" class="q-input" placeholder="27" style="width: 180px;"> )</li>
+ <li>• Sources of information
+ <ul class="sub-list">
+ <li>- Bibliography</li>
+ <li>- Library books</li>
+ <li>- <span class="q-num">28</span> <input type="text" id="q28" class="q-input" placeholder="28"> .</li>
+ <li>- <span class="q-num">29</span> <input type="text" id="q29" class="q-input" placeholder="29"> .</li>
+ </ul>
+ </li>
+ <li>• For the presentations, use:
+ <ul class="sub-list">
+ <li>- Overhead projector</li>
+ <li>- Whiteboard</li>
+ <li>- <span class="q-num">30</span> <input type="text" id="q30" class="q-input" placeholder="30"> .</li>
+ </ul>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <!-- PART 4 -->
+ <section id="part4" class="part-section" data-part="4">
+ <div class="context-banner">
+ <h3>SECTION 4</h3>
+ <p>Listen and answer questions 31–40.</p>
+ </div>
+ 
+ <div class="instructions">
+ <strong>Questions 31–40</strong>
+ Complete the notes below. Write <strong>NO MORE THAN THREE WORDS</strong> for each answer.
+ </div>
+
+ <h2 class="content-heading">HEALTH ON THE NIGHT SHIFT</h2>
+
+ <div class="notes-grid" style="grid-template-columns: 1fr;">
+ <div>
+ <strong>Background:</strong>
+ <ul class="sub-list">
+ <li>• increase in number of night workers because of <span class="q-num">31</span> <input type="text" id="q31" class="q-input" placeholder="31"> 24-hour shopping / services</li>
+ <li>• Need to examine effects of changing work and sleep habits; US and British research found these lead to health problems</li>
+ </ul>
+ </div>
+
+ <div>
+ <strong>Main Causes:</strong>
+ <ul class="sub-list">
+ <li><strong>A)</strong> <span class="q-num">32</span> <input type="text" id="q32" class="q-input" placeholder="32">
+ <ul class="sub-list">
+ <li>- regulates daily life</li>
+ <li>- connected to behavioural patterns and cycles of <span class="q-num">33</span> <input type="text" id="q33" class="q-input" placeholder="33" style="width: 180px;"> .</li>
+ <li>- programmes us to be awake and asleep at certain times</li>
+ </ul>
+ </li>
+ <li><strong>B) Sleep Debt</strong>
+ <ul class="sub-list">
+ <li>- impossible to get enough sleep during daytime</li>
+ </ul>
+ </li>
+ <li><strong>C)</strong> <span class="q-num">34</span> <input type="text" id="q34" class="q-input" placeholder="34">
+ <ul class="sub-list">
+ <li>- different working / sleeping times, 'dislocation'</li>
+ </ul>
+ </li>
+ </ul>
+ </div>
+
+ <div>
+ <strong>Effects:</strong>
+ <ul class="sub-list">
+ <li><strong>A) Physical</strong>
+ <ul class="sub-list">
+ <li>- higher incidence of <span class="q-num">35</span> <input type="text" id="q35" class="q-input" placeholder="35" style="width: 180px;"> problems</li>
+ <li>- more minor illnesses, suggesting that immunity of shift workers is affected</li>
+ </ul>
+ </li>
+ <li><strong>B) Psychological</strong>
+ <ul class="sub-list">
+ <li>- most common: <span class="q-num">36</span> <input type="text" id="q36" class="q-input" placeholder="36"></li>
+ <li>- <span class="q-num">37</span> <input type="text" id="q37" class="q-input" placeholder="37"> affected, e.g. decision-making, planning, which regulate our <span class="q-num">38</span> <input type="text" id="q38" class="q-input" placeholder="38"></li>
+ </ul>
+ </li>
+ <li><strong>C) Social</strong>
+ <p style="margin-left: 20px; margin-top: 10px;">Night shift work can lead to:</p>
+ <ul class="sub-list">
+ <li>- destruction of <span class="q-num">39</span> <input type="text" id="q39" class="q-input" placeholder="39"> and other relationships, e.g. <span class="q-num">40</span> <input type="text" id="q40" class="q-input" placeholder="40"> .</li>
+ <li>- eventually, for individuals: social isolation</li>
+ </ul>
+ </li>
+ </ul>
+ </div>
+ </div>
+ </section>
+
+ <div class="nav-buttons">
+ <button class="nav-btn btn-prev" disabled>&#8592;</button>
+ <button class="nav-btn btn-next">&#8594;</button>
+ </div>
+ </main>
+
+ <footer>
+ <div class="footer-trackers">
+ <div class="tracker-section" id="tracker-part1" data-part="1">
+ <strong>Section 1</strong>
+ <div class="number-track">
+ <div class="num-box" data-q="1">1</div>
+ <div class="num-box" data-q="2">2</div>
+ <div class="num-box" data-q="3">3</div>
+ <div class="num-box" data-q="4">4</div>
+ <div class="num-box" data-q="5">5</div>
+ <div class="num-box" data-q="6">6</div>
+ <div class="num-box" data-q="7">7</div>
+ <div class="num-box" data-q="8">8</div>
+ <div class="num-box" data-q="9">9</div>
+ <div class="num-box" data-q="10">10</div>
+ </div>
+ <span class="tracker-summary">0 of 10</span>
+ </div>
+
+ <div class="tracker-section" id="tracker-part2" data-part="2">
+ <strong>Section 2</strong>
+ <div class="number-track">
+ <div class="num-box" data-q="11">11</div>
+ <div class="num-box" data-q="12">12</div>
+ <div class="num-box" data-q="13">13</div>
+ <div class="num-box" data-q="14">14</div>
+ <div class="num-box" data-q="15">15</div>
+ <div class="num-box" data-q="16">16</div>
+ <div class="num-box" data-q="17">17</div>
+ <div class="num-box" data-q="18">18</div>
+ <div class="num-box" data-q="19">19</div>
+ <div class="num-box" data-q="20">20</div>
+ </div>
+ <span class="tracker-summary">0 of 10</span>
+ </div>
+
+ <div class="tracker-section" id="tracker-part3" data-part="3">
+ <strong>Section 3</strong>
+ <div class="number-track">
+ <div class="num-box" data-q="21">21</div>
+ <div class="num-box" data-q="22">22</div>
+ <div class="num-box" data-q="23">23</div>
+ <div class="num-box" data-q="24">24</div>
+ <div class="num-box" data-q="25">25</div>
+ <div class="num-box" data-q="26">26</div>
+ <div class="num-box" data-q="27">27</div>
+ <div class="num-box" data-q="28">28</div>
+ <div class="num-box" data-q="29">29</div>
+ <div class="num-box" data-q="30">30</div>
+ </div>
+ <span class="tracker-summary">0 of 10</span>
+ </div>
+
+ <div class="tracker-section" id="tracker-part4" data-part="4" style="border-right: none;">
+ <strong>Section 4</strong>
+ <div class="number-track">
+ <div class="num-box" data-q="31">31</div>
+ <div class="num-box" data-q="32">32</div>
+ <div class="num-box" data-q="33">33</div>
+ <div class="num-box" data-q="34">34</div>
+ <div class="num-box" data-q="35">35</div>
+ <div class="num-box" data-q="36">36</div>
+ <div class="num-box" data-q="37">37</div>
+ <div class="num-box" data-q="38">38</div>
+ <div class="num-box" data-q="39">39</div>
+ <div class="num-box" data-q="40">40</div>
+ </div>
+ <span class="tracker-summary">0 of 10</span>
+ </div>
+ </div>
+
+ <button class="submit-btn" onclick="checkAllAnswers()" title="Check Answers">&#10003;</button>
+ </footer>
+
+ <script>
+ // Dictionary of acceptable answers
+ const answerKey = {
+ "q1": ["C"],
+ "q2": ["A"],
+ "q3": ["B"],
+ "q4": ["A"],
+ "q5": ["B"],
+ "q6": ["C"],
+ "q7": ["C"],
+ "q8": ["A"],
+ "q9": ["cotehele"],
+ "q10": ["sh12llq", "sh12 llq"],
+ "q11": ["traveling", "travelling"],
+ "q12": ["get good shoes", "good shoes"],
+ "q13": ["wearing formal clothes", "formal clothes", "wearing formal clothing"],
+ "q14": ["large office", "big office"],
+ "q15": ["good pay", "great pay"],
+ "q16": ["live nearly", "live near", "live nearby"],
+ "q17": ["B"],
+ "q18": ["C"],
+ "q19": ["B"],
+ "q20": ["A"],
+ "q21": ["share ideas", "sharing ideas"],
+ "q22": ["much deeper research", "deeper research"],
+ "q23": ["mountain building"],
+ "q24": ["17th may", "may 17", "may 17th", "17 may", "17 of may"],
+ "q25": ["29th may", "may 29", "may 29th", "29 may", "29 of may"],
+ "q26": ["30-40 minutes", "30 to 40 minutes", "30 40 minutes"],
+ "q27": ["question discussion", "questions discussion", "questions and discussion", "question and discussion", "questions"],
+ "q28": ["journal", "journals"],
+ "q29": ["internet", "the internet"],
+ "q30": ["photo copy", "photocopy", "photocopies"],
+ "q31": ["health increase", "increase"],
+ "q32": ["internal clock", "body clock"],
+ "q33": ["light dark", "light and dark"],
+ "q34": ["unsocial hours", "unsociable hours"],
+ "q35": ["heart stomach", "heart and stomach", "heart, stomach"],
+ "q36": ["depression"],
+ "q37": ["mental ability", "cognitive ability"],
+ "q38": ["performance"],
+ "q39": ["family life"],
+ "q40": ["friends"]
+ };
+
+ function checkAllAnswers() {
+ for (let i = 1; i <= 40; i++) {
+ const qId = "q" + i;
+ const correctAnswers = answerKey[qId].map(ans => ans.toLowerCase());
+
+ // For text and hidden inputs
+ const inputField = document.getElementById(qId);
+ if (inputField) {
+ const userAnswer = inputField.value.trim().toLowerCase();
+ inputField.classList.remove("correct", "incorrect");
+ 
+ if (userAnswer !== "") {
+ if (correctAnswers.includes(userAnswer)) {
+ inputField.classList.add("correct");
+ } else {
+ inputField.classList.add("incorrect");
+ }
+ }
+ }
+
+ // For Radio Inputs
+ const radios = document.querySelectorAll(`input[name="${qId}"]`);
+ if (radios.length > 0) {
+ radios.forEach(r => {
+ r.parentElement.classList.remove('correct-radio', 'incorrect-radio');
+ if (r.checked) {
+ if (correctAnswers.includes(r.value.toLowerCase())) {
+ r.parentElement.classList.add('correct-radio');
+ } else {
+ r.parentElement.classList.add('incorrect-radio');
+ }
+ }
+ });
+ }
+ }
+ }
+
+ document.addEventListener('DOMContentLoaded', () => {
+ const mainContent = document.getElementById('main-content');
+ const partSections = document.querySelectorAll('.part-section');
+ const trackerSections = document.querySelectorAll('.tracker-section');
+ const prevBtn = document.querySelector('.btn-prev');
+ const nextBtn = document.querySelector('.btn-next');
+ let currentPart = 1;
+
+ function countAnswered(partNum) {
+ const section = document.querySelector(`.part-section[data-part="${partNum}"]`);
+ if (!section) return 0;
+ let count = 0;
+ section.querySelectorAll('.q-input, input[type="hidden"]').forEach(inp => {
+ if (inp.value.trim() !== '') count++;
+ });
+ const radioNames = new Set();
+ section.querySelectorAll('input[type="radio"]').forEach(r => radioNames.add(r.name));
+ radioNames.forEach(name => {
+ if (section.querySelector(`input[name="${name}"]:checked`)) count++;
+ });
+ return count;
+ }
+
+ function updateTrackerSummaries() {
+ trackerSections.forEach(t => {
+ const partNum = parseInt(t.dataset.part);
+ const answered = countAnswered(partNum);
+ const summary = t.querySelector('.tracker-summary');
+ if (summary) summary.textContent = `${answered} of 10`;
+ });
+ }
+
+ function showPart(partNum) {
+ currentPart = partNum;
+ partSections.forEach(s => {
+ s.classList.toggle('active', parseInt(s.dataset.part) === partNum);
+ });
+ trackerSections.forEach(t => {
+ const isActive = parseInt(t.dataset.part) === partNum;
+ t.classList.toggle('active', isActive);
+ t.querySelectorAll('.num-box').forEach(b => b.classList.remove('active'));
+ });
+ prevBtn.disabled = partNum === 1;
+ nextBtn.style.visibility = partNum === 4 ? 'hidden' : 'visible';
+ mainContent.scrollTop = 0;
+ updateTrackerSummaries();
+ }
+
+ trackerSections.forEach(t => {
+ t.addEventListener('click', () => showPart(parseInt(t.dataset.part)));
+ });
+
+ prevBtn.addEventListener('click', () => { if (currentPart > 1) showPart(currentPart - 1); });
+ nextBtn.addEventListener('click', () => { if (currentPart < 4) showPart(currentPart + 1); });
+
+ document.querySelectorAll('.q-input').forEach(input => {
+ input.addEventListener('focus', e => {
+ const qNum = parseInt(e.target.placeholder);
+ if (!isNaN(qNum)) {
+ const activeTracker = document.querySelector('.tracker-section.active');
+ if (activeTracker) {
+ activeTracker.querySelectorAll('.num-box').forEach(b => b.classList.remove('active'));
+ const targetBox = activeTracker.querySelector(`.num-box[data-q="${qNum}"]`);
+ if (targetBox) targetBox.classList.add('active');
+ }
+ }
+ });
+ });
+
+ document.querySelectorAll('.q-input').forEach(inp => inp.addEventListener('input', updateTrackerSummaries));
+ document.querySelectorAll('input[type="radio"]').forEach(r => r.addEventListener('change', updateTrackerSummaries));
+
+ // Drag-and-drop feature retained in script for templates, but not utilized in this specific HTML test 
+ (function () {
+ let draggedTile = null;
+ let dragSource = null;
+
+ function setHiddenInput(qNum, value) {
+ const hidden = document.getElementById(`q${qNum}`);
+ if (hidden) {
+ hidden.value = value;
+ hidden.dispatchEvent(new Event('input')); // trigger tracker update
+ }
+ }
+
+ document.querySelectorAll('.drag-tile').forEach(tile => {
+ tile.addEventListener('dragstart', e => {
+ draggedTile = tile;
+ dragSource = tile.parentElement;
+ tile.classList.add('dragging');
+ e.dataTransfer.effectAllowed = 'move';
+ });
+ tile.addEventListener('dragend', () => {
+ tile.classList.remove('dragging');
+ draggedTile = null;
+ dragSource = null;
+ });
+ });
+
+ document.querySelectorAll('.drop-zone').forEach(zone => {
+ zone.addEventListener('dragover', e => {
+ e.preventDefault();
+ zone.classList.add('drag-over');
+ });
+ zone.addEventListener('dragleave', e => {
+ if (!zone.contains(e.relatedTarget)) zone.classList.remove('drag-over');
+ });
+ zone.addEventListener('drop', e => {
+ e.preventDefault();
+ zone.classList.remove('drag-over');
+ if (!draggedTile) return;
+
+ // Return any tile already in this zone to the pool
+ const existing = zone.querySelector('.drag-tile');
+ if (existing) {
+ const optionsPool = document.getElementById('dnd-options');
+ if(optionsPool) optionsPool.appendChild(existing);
+ }
+
+ // Clear the source zone's input if dragged from another zone
+ if (dragSource && dragSource.classList.contains('drop-zone')) {
+ setHiddenInput(dragSource.dataset.q, '');
+ }
+
+ zone.appendChild(draggedTile);
+ setHiddenInput(zone.dataset.q, draggedTile.dataset.value);
+ updateTrackerSummaries();
+ });
+ });
+
+ // Allow dragging back to the options pool
+ const pool = document.getElementById('dnd-options');
+ if(pool) {
+ pool.addEventListener('dragover', e => e.preventDefault());
+ pool.addEventListener('drop', e => {
+ e.preventDefault();
+ if (!draggedTile) return;
+ if (dragSource && dragSource.classList.contains('drop-zone')) {
+ setHiddenInput(dragSource.dataset.q, '');
+ }
+ pool.appendChild(draggedTile);
+ updateTrackerSummaries();
+ });
+ }
+ })();
+
+ showPart(1);
+
+ // ── HIGHLIGHT FEATURE ──────────────────────────────────────────
+ (function () {
+ const popup = document.getElementById('highlight-popup');
+ let pendingRange = null;
+
+ function positionPopup(x, y) {
+ popup.style.left = (x + window.scrollX) + 'px';
+ popup.style.top = (y + window.scrollY - 44) + 'px';
+ requestAnimationFrame(() => {
+ const rect = popup.getBoundingClientRect();
+ if (rect.right > window.innerWidth - 8) {
+ popup.style.left = (window.innerWidth - rect.width - 12 + window.scrollX) + 'px';
+ }
+ if (rect.left < 8) popup.style.left = (8 + window.scrollX) + 'px';
+ });
+ }
+
+ function hidePopup() {
+ popup.classList.remove('visible');
+ pendingRange = null;
+ }
+
+ function applyHighlight(range, colorClass) {
+ const mark = document.createElement('mark');
+ mark.className = 'user-highlight' + (colorClass ? ' ' + colorClass : '');
+ try {
+ range.surroundContents(mark);
+ } catch (e) {
+ const frag = range.extractContents();
+ mark.appendChild(frag);
+ range.insertNode(mark);
+ }
+ window.getSelection().removeAllRanges();
+ }
+
+ document.getElementById('main-content').addEventListener('mouseup', function (e) {
+ setTimeout(() => {
+ const sel = window.getSelection();
+ if (!sel || sel.isCollapsed || sel.toString().trim() === '') {
+ hidePopup();
+ return;
+ }
+ pendingRange = sel.getRangeAt(0).cloneRange();
+ const rect = sel.getRangeAt(0).getBoundingClientRect();
+ positionPopup(rect.left + rect.width / 2 - 80, rect.top);
+ popup.classList.add('visible');
+ }, 10);
+ });
+
+ document.addEventListener('mousedown', function (e) {
+ if (!popup.contains(e.target)) hidePopup();
+ });
+
+ popup.querySelectorAll('.hl-btn').forEach(btn => {
+ btn.addEventListener('mousedown', function (e) {
+ e.preventDefault(); 
+ if (!pendingRange) return;
+ applyHighlight(pendingRange, btn.dataset.color || '');
+ hidePopup();
+ });
+ });
+
+ document.getElementById('main-content').addEventListener('click', function (e) {
+ const mark = e.target.closest('mark.user-highlight');
+ if (!mark) return;
+ const rect = mark.getBoundingClientRect();
+ pendingRange = null;
+ positionPopup(rect.left + rect.width / 2 - 80, rect.top);
+ popup.classList.add('visible');
+ popup._activeMark = mark;
+ });
+
+ document.querySelector('.hl-remove-btn').addEventListener('mousedown', function (e) {
+ e.preventDefault();
+ const mark = popup._activeMark;
+ if (mark) {
+ const parent = mark.parentNode;
+ while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
+ parent.removeChild(mark);
+ popup._activeMark = null;
+ }
+ hidePopup();
+ });
+ })();
+ });
+ </script>
+</body>
+</html>
